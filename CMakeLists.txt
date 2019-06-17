@@ -24,7 +24,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -O2 -Wall -Wextra -Werror")
 ### For basic framework                      ###
 ################################################
 set(SRC src/main.cpp)
-
-
+set(SRC ${SRC} include/Help.h)
+set(SRC ${SRC} include/GmshIO.h src/GmshIO.cpp)
 
 add_executable(crve ${SRC})

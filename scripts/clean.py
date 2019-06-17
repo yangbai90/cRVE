@@ -107,7 +107,7 @@ for subdir,dirs,files in os.walk(currentdir):
                     print('%s is not here'%(dir))
 
 print('***** Start to clean the workspace...')
-print('Remove %4d crve exe files!'%(nOpt))
+print('Remove %4d crve exe files!'%(crve))
 print('Remove %4d tmp files!'%(tmp))
 print('Remove %4d .e files!'%(e))
 print('Remove %4d .o files!'%(o))
