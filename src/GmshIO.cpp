@@ -10,6 +10,7 @@ GmshIO::GmshIO()
     _Ymax=_Xmax;_Ymin=_Xmin;
     _Zmax=_Xmax;_Zmin=_Xmin;
 
-    NodeCoords.clear();
-    ElmtConn.clear();
+    _NodeCoords.clear();
+    _ElmtConn.clear();
 }
+

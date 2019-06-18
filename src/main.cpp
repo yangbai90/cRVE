@@ -10,8 +10,15 @@ using namespace std;
 int main(int args,char *argv[])
 {
     GmshIO gmshio;
-    cout<<gmshio.GetElmtsNum()<<endl;
     
+
+    gmshio.SetMeshFileName("test.msh");
+    gmshio.ReadMeshFile();
+   
+   
+    cout<<gmshio.GetElmtsNum()<<endl;
+   
+
     if(args>=2)
     {
         if(string("-help").find(argv[1])!=string::npos )
