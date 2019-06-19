@@ -60,12 +60,23 @@ bool GmshIO::ReadMeshFile()
             _NodeCoords.resize(_nNodes*3,0.0);
             long int id;
             double x,y,z;
+
+
+            _Xmax=-1.0e16;_Xmin=1.0e16;
+            _Ymax=_Xmax;_Ymin=_Xmin;
+            _Zmax=_Xmax;_Zmin=_Xmin;
             for(long int i=0;i<_nNodes;i++)
             {
                 in>>id>>x>>y>>z;
                 _NodeCoords[(id-1)*3+1-1]=x;
                 _NodeCoords[(id-1)*3+2-1]=y;
                 _NodeCoords[(id-1)*3+3-1]=z;
+                if(x>_Xmax) _Xmax=x;
+                if(x<_Xmin) _Xmin=x;
+                if(y>_Ymax) _Ymax=y;
+                if(y<_Ymin) _Ymin=y;
+                if(z>_Zmax) _Zmax=z;
+                if(z<_Zmin) _Zmin=z;
             }
             getline(in,str);
         }
@@ -73,7 +84,7 @@ bool GmshIO::ReadMeshFile()
         {
             _nElmts=0;
             in>>_nElmts;
-            _ElmtConn.resize(_nElmts,vector<int>(0));
+            _ElmtConn.resize(_nElmts,vector<long int>(0));
             
             _ElmtDimVec.resize(_nElmts,0);
             _ElmtTypeVec.resize(_nElmts,0);
@@ -83,6 +94,8 @@ bool GmshIO::ReadMeshFile()
             long int elmtid;
             int phyid,geoid,ntags,elmttype;
             int nodes,dim;
+            _MeshUniGeoID.clear();
+            _MeshUniPhyID.clear();
             for(long int ie=0;ie<_nElmts;ie++)
             {
                 in>>elmtid>>elmttype>>ntags>>phyid>>geoid;
@@ -98,6 +111,29 @@ bool GmshIO::ReadMeshFile()
                 _ElmtTypeVec[elmtid-1]=elmttype;
                 _ElmtPhyIDVec[elmtid-1]=phyid;
                 _ElmtGeoIDVec[elmtid-1]=geoid;
+
+                if(_MeshUniGeoID.size()==0)
+                {
+                    _MeshUniGeoID.push_back(geoid);
+                    _MeshUniPhyID.push_back(phyid);
+                }
+                else
+                {
+                    bool IsUni=true;
+                    for(unsigned int i=0;i<_MeshUniGeoID.size();i++)
+                    {
+                        if(geoid==_MeshUniGeoID[i]||phyid==_MeshUniPhyID[i])
+                        {
+                            IsUni=false;
+                            break;
+                        }
+                    }
+                    if(IsUni)
+                    {
+                        _MeshUniGeoID.push_back(geoid);
+                        _MeshUniPhyID.push_back(phyid);
+                    }
+                }
 
             }
 
