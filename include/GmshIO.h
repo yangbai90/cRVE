@@ -21,6 +21,7 @@ public:
     void SetTolerence(double tol=1.0e-3) {_tol=tol;}
     void SetMeshFileName(string filename) {_GeoFileName=filename;_NewGeoFileName=filename;}
     void LableCubic();
+    void SaveLabledMesh();
 
 public:
     inline long int GetNodesNum() const {return _nNodes;}
@@ -38,8 +39,8 @@ public:
 
     inline vector<long int> GetIthElmtConn(long int e) 
     {
-        vector<long int> conn(_ElmtConn[e][0],0);
-        for(int i=0;i<_ElmtConn[e][0];i++) conn[i]=_ElmtConn[e][i+1];
+        vector<long int> conn(_ElmtConn[e-1][0],0);
+        for(int i=0;i<_ElmtConn[e-1][0];i++) conn[i]=_ElmtConn[e-1][i+1];
         return conn;
     }
 
@@ -53,6 +54,8 @@ private:
     string GetElmtNameViaElmtType(int elmttype) const;
 
     bool NodesOnSurface(int component,double val,vector<long int> &conn);    
+
+    void PrepareInfoBeforeSave();
 
 private:
     double _tol=1.0e-6;
@@ -69,8 +72,8 @@ private:
     vector<int> _MeshUniPhyID,_MeshUniGeoID;
 
     vector<vector<long int>> _XminElConn,_XmaxElConn,
-                        _YminElConn,_YmaxElConn,
-                        _ZminElConn,_ZmaxElconn;
+                             _YminElConn,_YmaxElConn,
+                             _ZminElConn,_ZmaxElconn;
 
 };
 

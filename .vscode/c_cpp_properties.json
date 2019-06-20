@@ -7,10 +7,11 @@
                 "${workspaceFolder}/include"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/gcc",
+            "compilerPath": "/opt/moose/gcc-8.3.0/bin/g++",
             "cStandard": "c11",
             "cppStandard": "c++14",
-            "intelliSenseMode": "clang-x64"
+            "intelliSenseMode": "clang-x64",
+            "configurationProvider": "vector-of-bool.cmake-tools"
         }
     ],
     "version": 4

@@ -5,15 +5,13 @@ bool GmshIO::NodesOnSurface(int component,double val,vector<long int> &conn)
     double x,y,z;
     int nnodes=conn.size();
     bool IsOnSurface=true;
-    
-    for(int i=0;i<nnodes;i++)
+
+    if(component==1)
     {
-        x=GetIthNodeJthCoord(conn[i],1);
-        y=GetIthNodeJthCoord(conn[i],2);
-        z=GetIthNodeJthCoord(conn[i],3);
-        if(component==1)
+        IsOnSurface=true;
+        for(int i=0;i<nnodes;i++)
         {
-            // check xmin/xmax
+            x=GetIthNodeJthCoord(conn[i],1);
             if(abs(x-val)<_tol)
             {
                 IsOnSurface=true;
@@ -24,8 +22,15 @@ bool GmshIO::NodesOnSurface(int component,double val,vector<long int> &conn)
                 return IsOnSurface;
             }
         }
-        else if(component==2)
+        return IsOnSurface;
+    }
+    else if(component==2)
+    {
+        IsOnSurface=true;
+        for(int i=0;i<nnodes;i++)
         {
+            y=GetIthNodeJthCoord(conn[i],2);
+            z=GetIthNodeJthCoord(conn[i],3);
             if(abs(y-val)<_tol)
             {
                 IsOnSurface=true;
@@ -36,8 +41,14 @@ bool GmshIO::NodesOnSurface(int component,double val,vector<long int> &conn)
                 return IsOnSurface;
             }
         }
-        else if(component==3)
+        return IsOnSurface;
+    }
+    else if(component==3)
+    {
+        IsOnSurface=true;
+        for(int i=0;i<nnodes;i++)
         {
+            z=GetIthNodeJthCoord(conn[i],3);
             if(abs(z-val)<_tol)
             {
                 IsOnSurface=true;
@@ -48,6 +59,7 @@ bool GmshIO::NodesOnSurface(int component,double val,vector<long int> &conn)
                 return IsOnSurface;
             }
         }
+        return IsOnSurface;
     }
     return false;
 }

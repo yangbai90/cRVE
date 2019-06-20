@@ -95,7 +95,7 @@ for subdir,dirs,files in os.walk(currentdir):
             except:
                 if(not IdeaRemove):
                     print('%s is not here'%(dir))
-        elif ('cmake-build-debug' in dir) or ('CMakeFiles' in dir):
+        elif ('cmake-build-debug' in dir) or ('CMakeFiles' in dir) or ('build' in dir):
             try:
                 cmake+=1
                 removepath=subdir+'/'+dir

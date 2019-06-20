@@ -28,6 +28,7 @@ set(SRC src/main.cpp)
 set(SRC ${SRC} include/Help.h)
 set(SRC ${SRC} include/GmshIO.h src/GmshIO.cpp src/GmshIOGetInfo.cpp)
 set(SRC ${SRC} src/ReadMesh.cpp src/LableCubic.cpp src/JudgeFuns.cpp)
+set(SRC ${SRC} src/PrepareInfoBeforeSave.cpp)
 
 
 add_executable(crve ${SRC})
