@@ -6,3 +6,10 @@ Step-1. generate the RVE in [GeoDict](https://www.math2market.com/Solutions/abou
 Step-2. generate the msh file use Gmsh, which should give you the volume mesh but no any surface or boundary mesh information.
 
 Step-3. label out all the boundaries use cRVE, especially the common surface where the particles are contacted with the cubic's edge surfaces.
+
+# Result
+![orgin](figures/origin.png)
+
+after split
+
+![split](figures/split.png)
