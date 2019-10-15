@@ -51,8 +51,9 @@ matrix                     |  particle
 after split, they looks like:
 split result               |  physical info
 :-------------------------:|:-------------------------:
-![](figures/split.png)     |  ![](figures/info.png)
+![](figures/split1.png)     |  ![](figures/info.png)
 the print message for this job should looks like:
+
 
 ```
 a successful job print should looks like:
