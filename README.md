@@ -20,10 +20,27 @@ after that, an executable file names 'crve' should be found under the 'bin' fold
 # Usage
 For some basic introduction, one can use:
 ```
-crve -h
+crve -help
 ```
 which should print out:
-
+```
+*************************************************************************
+*** Welcome to use cRVE (a simple cpp script to modify msh file)!     ***
+*** Options:                                                          ***
+***  -help            ---> print this message                         ***
+***  -i test.msh      ---> i for input, msh file should follow it!    ***
+***  -tol tolerance   ---> set tolerance for mesh splitting           ***
+***  -bounall[enable] ---> assign mx[y,z]min/max to cubic's boundary  ***
+***                        assign px[y,z]min/max to cubic's boundary  ***
+***  -bounmat[disable]---> assign mx[y,z]min/max to matrix's boundary ***
+***                        only matrix is splitted in this case!!!    ***
+***  -bounpar[disable]---> assign px[y,z]min/max to particle boundary ***
+***                        only particle is splitted in this case!!!  ***
+***  -print[enable]   ---> print out the results information          ***
+*** Author: walkandthinker@CopyRight                                  ***
+*** Contact: walkandthinker@gmail.com                                 ***
+*************************************************************************
+```
 
 # Result
 before split, the rve looks like:
@@ -32,10 +49,11 @@ matrix                     |  particle
 ![](figures/matrix.png)    |  ![](figures/particle.png)
 
 after split, they looks like:
-split                      |  physical infor
+split result               |  physical info
 :-------------------------:|:-------------------------:
-![](figures/split.png)    |  ![](figures/info.png)
+![](figures/split.png)     |  ![](figures/info.png)
 the print message for this job should looks like:
+
 ```
 a successful job print should looks like:
 *************************************************************************
@@ -71,3 +89,5 @@ a successful job print should looks like:
 
 # Author
 [Yang](mailto:walkandthinker@gmail.com)
+
+Feel free to contact me if you have any problems.
