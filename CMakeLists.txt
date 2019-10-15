@@ -4,8 +4,8 @@ project(cRVE)
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Test")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
+
 
 ###############################################
 ### For release                             ###
@@ -27,7 +27,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -O2 -Wall -Wextra -Werror")
 set(SRC src/main.cpp)
 set(SRC ${SRC} include/Help.h)
 set(SRC ${SRC} include/GmshIO.h src/GmshIO.cpp src/GmshIOGetInfo.cpp)
-set(SRC ${SRC} src/ReadMesh.cpp src/LableCubic.cpp src/JudgeFuns.cpp)
+set(SRC ${SRC} src/ReadMesh.cpp src/Init.cpp src/LableCubic.cpp src/JudgeFuns.cpp)
 set(SRC ${SRC} src/PrepareInfoBeforeSave.cpp)
 
 

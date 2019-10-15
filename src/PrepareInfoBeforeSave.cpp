@@ -2,8 +2,6 @@
 
 void GmshIO::SaveLabledMesh()
 {
-    vector<int> newphyid,newphydim;
-    vector<string> newphyname;
 
     newphyid.clear();
     newphydim.clear();
@@ -14,46 +12,142 @@ void GmshIO::SaveLabledMesh()
     int nSurfaceElmts=0;
     if(_XminElConn.size()!=0)
     {
-        newphyid.push_back(1);
-        newphyname.push_back("left");
-        newphydim.push_back(2);
+        if(_IsSplitMatrixAndParticle){
+            newphyid.push_back(1);
+            newphyname.push_back("mleft");
+            newphydim.push_back(2);
+
+            newphyid.push_back(2);
+            newphyname.push_back("pleft");
+            newphydim.push_back(2);
+        }
+        else if(_IsSplitMatrixOnly){
+            newphyid.push_back(1);
+            newphyname.push_back("mleft");
+            newphydim.push_back(2);
+        }
+        else if(_IsSplitParticleOnly){
+            newphyid.push_back(1);
+            newphyname.push_back("pleft");
+            newphydim.push_back(2);
+        }
         nSurfaceElmts+=_XminElConn.size();
     }
     if(_XmaxElConn.size()!=0)
     {
-        newphyid.push_back(4);
-        newphyname.push_back("right");
-        newphydim.push_back(2);
+        if(_IsSplitMatrixAndParticle){
+            newphyid.push_back(3);
+            newphyname.push_back("mright");
+            newphydim.push_back(2);
+
+            newphyid.push_back(4);
+            newphyname.push_back("pright");
+            newphydim.push_back(2);
+        }
+        else if(_IsSplitMatrixOnly){
+            newphyid.push_back(2);
+            newphyname.push_back("mright");
+            newphydim.push_back(2);
+        }
+        else if(_IsSplitParticleOnly){
+            newphyid.push_back(2);
+            newphyname.push_back("pright");
+            newphydim.push_back(2);
+        }
         nSurfaceElmts+=_XmaxElConn.size();
     }
     //************************************
     if(_YminElConn.size()!=0)
     {
-        newphyid.push_back(2);
-        newphyname.push_back("bottom");
-        newphydim.push_back(2);
+        if(_IsSplitMatrixAndParticle){
+            newphyid.push_back(5);
+            newphyname.push_back("mbottom");
+            newphydim.push_back(2);
+
+            newphyid.push_back(6);
+            newphyname.push_back("pbottom");
+            newphydim.push_back(2);
+        }
+        else if(_IsSplitMatrixOnly){
+            newphyid.push_back(3);
+            newphyname.push_back("mbottom");
+            newphydim.push_back(2);
+        }
+        else if(_IsSplitParticleOnly){
+            newphyid.push_back(3);
+            newphyname.push_back("pbottom");
+            newphydim.push_back(2);
+        }
         nSurfaceElmts+=_YminElConn.size();
     }
     if(_YmaxElConn.size()!=0)
     {
-        newphyid.push_back(5);
-        newphyname.push_back("top");
-        newphydim.push_back(2);
+       if(_IsSplitMatrixAndParticle){
+            newphyid.push_back(7);
+            newphyname.push_back("mtop");
+            newphydim.push_back(2);
+
+            newphyid.push_back(8);
+            newphyname.push_back("ptop");
+            newphydim.push_back(2);
+        }
+        else if(_IsSplitMatrixOnly){
+            newphyid.push_back(4);
+            newphyname.push_back("mtop");
+            newphydim.push_back(2);
+        }
+        else if(_IsSplitParticleOnly){
+            newphyid.push_back(4);
+            newphyname.push_back("ptop");
+            newphydim.push_back(2);
+        }
         nSurfaceElmts+=_YmaxElConn.size();
     }
     //************************************
     if(_ZminElConn.size()!=0)
     {
-        newphyid.push_back(3);
-        newphyname.push_back("back");
-        newphydim.push_back(2);
+        if(_IsSplitMatrixAndParticle){
+            newphyid.push_back(9);
+            newphyname.push_back("mback");
+            newphydim.push_back(2);
+
+            newphyid.push_back(10);
+            newphyname.push_back("pback");
+            newphydim.push_back(2);
+        }
+        else if(_IsSplitMatrixOnly){
+            newphyid.push_back(5);
+            newphyname.push_back("mback");
+            newphydim.push_back(2);
+        }
+        else if(_IsSplitParticleOnly){
+            newphyid.push_back(5);
+            newphyname.push_back("pback");
+            newphydim.push_back(2);
+        }
         nSurfaceElmts+=_ZminElConn.size();
     }
     if(_ZmaxElconn.size()!=0)
     {
-        newphyid.push_back(6);
-        newphyname.push_back("front");
-        newphydim.push_back(2);
+        if(_IsSplitMatrixAndParticle){
+            newphyid.push_back(11);
+            newphyname.push_back("mfront");
+            newphydim.push_back(2);
+
+            newphyid.push_back(12);
+            newphyname.push_back("pfront");
+            newphydim.push_back(2);
+        }
+        else if(_IsSplitMatrixOnly){
+            newphyid.push_back(6);
+            newphyname.push_back("mfront");
+            newphydim.push_back(2);
+        }
+        else if(_IsSplitParticleOnly){
+            newphyid.push_back(6);
+            newphyname.push_back("pfront");
+            newphydim.push_back(2);
+        }
         nSurfaceElmts+=_ZmaxElconn.size();
     }
     int nVolumePhyIDStart=newphyid.size();
@@ -78,52 +172,54 @@ void GmshIO::SaveLabledMesh()
     }
 
     // start to write new geo file
-    out<<"$MeshFormat"<<endl;
-    out<<"2.2 0 8"<<endl;
-    out<<"$EndMeshFormat"<<endl;
+    out<<"$MeshFormat\n";
+    out<<"2.2 0 8\n";
+    out<<"$EndMeshFormat\n";
 
     // write out physical information
-    out<<"$PhysicalNames"<<endl;
-    out<<newphyname.size()<<endl;
+    out<<"$PhysicalNames\n";
+    out<<newphyname.size()<<"\n";
     for(int i=0;i<int(newphyid.size());i++)
     {
-        out<<newphydim[i]<<" "<<newphyid[i]<<" \""<<newphyname[i]<<"\""<<endl;
+        out<<newphydim[i]<<" "<<newphyid[i]<<" \""<<newphyname[i]<<"\""<<"\n";
     }
-    out<<"$EndPhysicalNames"<<endl;
+    out<<"$EndPhysicalNames\n";
 
     // write out nodes
-    out<<"$Nodes"<<endl;
-    out<<_nNodes<<endl;
+    out<<"$Nodes\n";
+    out<<_nNodes<<"\n";
     for(long int i=1;i<=_nNodes;i++)
     {
         out<<i<<" ";
-        out<<GetIthNodeJthCoord(i,1)<<" ";
-        out<<GetIthNodeJthCoord(i,2)<<" ";
-        out<<GetIthNodeJthCoord(i,3)<<endl;
+        out<<scientific<<setprecision(6)<<GetIthNodeJthCoord(i,1)<<" ";
+        out<<scientific<<setprecision(6)<<GetIthNodeJthCoord(i,2)<<" ";
+        out<<scientific<<setprecision(6)<<GetIthNodeJthCoord(i,3)<<"\n";
     }
-    out<<"$EndNodes"<<endl;
+    out<<"$EndNodes\n";
 
     // write out elements
-    out<<"$Elements"<<endl;
-    out<<_nElmts+nSurfaceElmts<<endl;
+    out<<"$Elements\n";
+    out<<_nElmts+nSurfaceElmts<<"\n";
     long int iInd=0;
     //*********************************
+    //*** elm-number elm-type number-of-tags < tag > ... node-number-list
     for(size_t i=0;i<_XminElConn.size();i++)
     {
         iInd+=1;
-        out<<iInd<<" "<<2<<" "<<2<<" ";
-        out<<1<<" "<<1<<" ";
+        //elm-number elm-type number-of-tags < tag > ... node-number-list
+        out<<iInd<<" "<<_XminElmtTypeVec[i]<<" "<<2<<" ";
+        out<<_XminElmtPhyID[i]<<" "<<_XminElmtPhyID[i]<<" ";
         for(size_t j=0;j<_XminElConn[i].size();j++)
         {
             out<<_XminElConn[i][j]<<" ";
         }
-        out<<endl;
+        out<<"\n";
     }
     for(size_t i=0;i<_XmaxElConn.size();i++)
     {
         iInd+=1;
-        out<<iInd<<" "<<2<<" "<<2<<" ";
-        out<<4<<" "<<4<<" ";
+        out<<iInd<<" "<<_XmaxElmtTypeVec[i]<<" "<<2<<" ";
+        out<<_XmaxElmtPhyID[i]<<" "<<_XmaxElmtPhyID[i]<<" ";
         for(size_t j=0;j<_XmaxElConn[i].size();j++)
         {
             out<<_XmaxElConn[i][j]<<" ";
@@ -134,8 +230,8 @@ void GmshIO::SaveLabledMesh()
     for(size_t i=0;i<_YminElConn.size();i++)
     {
         iInd+=1;
-        out<<iInd<<" "<<2<<" "<<2<<" ";
-        out<<2<<" "<<2<<" ";
+        out<<iInd<<" "<<_YminElmtTypeVec[i]<<" "<<2<<" ";
+        out<<_YminElmtPhyID[i]<<" "<<_YminElmtPhyID[i]<<" ";
         for(size_t j=0;j<_YminElConn[i].size();j++)
         {
             out<<_YminElConn[i][j]<<" ";
@@ -145,8 +241,8 @@ void GmshIO::SaveLabledMesh()
     for(size_t i=0;i<_YmaxElConn.size();i++)
     {
         iInd+=1;
-        out<<iInd<<" "<<2<<" "<<2<<" ";
-        out<<5<<" "<<5<<" ";
+        out<<iInd<<" "<<_YmaxElmtTypeVec[i]<<" "<<2<<" ";
+        out<<_YmaxElmtPhyID[i]<<" "<<_YmaxElmtPhyID[i]<<" ";
         for(size_t j=0;j<_YmaxElConn[i].size();j++)
         {
             out<<_YmaxElConn[i][j]<<" ";
@@ -157,8 +253,8 @@ void GmshIO::SaveLabledMesh()
     for(size_t i=0;i<_ZminElConn.size();i++)
     {
         iInd+=1;
-        out<<iInd<<" "<<2<<" "<<2<<" ";
-        out<<3<<" "<<3<<" ";
+        out<<iInd<<" "<<_ZminElmtTypeVec[i]<<" "<<2<<" ";
+        out<<_ZminElmtPyhID[i]<<" "<<_ZminElmtPyhID[i]<<" ";
         for(size_t j=0;j<_ZminElConn[i].size();j++)
         {
             out<<_ZminElConn[i][j]<<" ";
@@ -168,8 +264,8 @@ void GmshIO::SaveLabledMesh()
     for(size_t i=0;i<_ZmaxElconn.size();i++)
     {
         iInd+=1;
-        out<<iInd<<" "<<2<<" "<<2<<" ";
-        out<<6<<" "<<6<<" ";
+        out<<iInd<<" "<<_ZmaxElmtTypeVec[i]<<" "<<2<<" ";
+        out<<_ZMaxElmtPhyID[i]<<" "<<_ZMaxElmtPhyID[i]<<" ";
         for(size_t j=0;j<_ZmaxElconn[i].size();j++)
         {
             out<<_ZmaxElconn[i][j]<<" ";
