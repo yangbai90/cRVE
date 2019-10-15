@@ -7,9 +7,67 @@ Step-2. generate the msh file use Gmsh, which should give you the volume mesh bu
 
 Step-3. label out all the boundaries use cRVE, especially the common surface where the particles are contacted with the cubic's edge surfaces.
 
+# Install
+```shell
+git clone https://github.com/walkandthinker/cRVE.git
+
+cd cRVE
+
+cmake CMakeLists.txt && make -j4
+```
+after that, an executable file names 'crve' should be found under the 'bin' folder.
+
+# Usage
+For some basic introduction, one can use:
+```
+crve -h
+```
+which should print out:
+
+
 # Result
-![orgin](figures/origin.png)
+before split, the rve looks like:
+matrix                     |  particle
+:-------------------------:|:-------------------------:
+![](figures/matrix.png)    |  ![](figures/particle.png)
 
-after split
+after split, they looks like:
+split                      |  physical infor
+:-------------------------:|:-------------------------:
+![](figures/split.png)    |  ![](figures/info.png)
+the print message for this job should looks like:
+```
+a successful job print should looks like:
+*************************************************************************
+*** Job information summary:                                          ***
+***   Xmax=  6.000000e+01,  Xmin=  0.000000e+00,  Cx= 2.943449e+01    ***
+***   Ymax=  1.500000e+01,  Ymin=  0.000000e+00,  Cy= 7.543953e+00    ***
+***   Zmax=  1.500000e+01,  Zmin=  0.000000e+00,  Cz= 7.387744e+00    ***
+***   Physical group IDs=  0 , max dim= 3, min dim= 3, tol=1.0000e-01 ***
+***   Mesh has      2 unique pyhsical ids                             ***
+***   Split both the matrix and particles boundaries                  ***
+***   Final physical group information:                               ***
+***   Physical ID-------physical dim--------------physical name       ***
+***       1                 2                             mleft       ***
+***       2                 2                             pleft       ***
+***       3                 2                            mright       ***
+***       4                 2                            pright       ***
+***       5                 2                           mbottom       ***
+***       6                 2                           pbottom       ***
+***       7                 2                              mtop       ***
+***       8                 2                              ptop       ***
+***       9                 2                             mback       ***
+***      10                 2                             pback       ***
+***      11                 2                            mfront       ***
+***      12                 2                            pfront       ***
+***      13                 3                           volume1       ***
+***      14                 3                           volume2       ***
+*************************************************************************
+*** Write results to                         new_dns.msh              ***
+*** Time elapse:     4.800271e+00 [s]                                 ***
+*************************************************************************
+```
 
-![split](figures/split.png)
+
+# Author
+[Yang](mailto:walkandthinker@gmail.com)
