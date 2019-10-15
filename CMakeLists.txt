@@ -4,8 +4,8 @@ project(cRVE)
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Test")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
+
 
 ###############################################
 ### For release                             ###
