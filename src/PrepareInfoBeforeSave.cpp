@@ -1,7 +1,6 @@
 #include "GmshIO.h"
 
-void GmshIO::SaveLabledMesh()
-{
+void GmshIO::SaveLabledMesh(){
 
     newphyid.clear();
     newphydim.clear();
@@ -10,8 +9,7 @@ void GmshIO::SaveLabledMesh()
 
     // no any geo information in *.msh file
     int nSurfaceElmts=0;
-    if(_XminElConn.size()!=0)
-    {
+    if(_XminElConn.size()!=0){
         if(_IsSplitMatrixAndParticle){
             newphyid.push_back(1);
             newphyname.push_back("mleft");
