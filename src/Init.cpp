@@ -1,9 +1,9 @@
 #include "GmshIO.h"
-#include "Help.h"
+// #include "Help.h"
 bool GmshIO::Init(int args,char *argv[]){
     for(int i=0;i<args;++i){
         if(string(argv[i]).find("-help")!=string::npos){
-            PrintHelp();
+            //PrintHelp();
             return false;
         }
     }
