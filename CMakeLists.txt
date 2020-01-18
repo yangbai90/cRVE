@@ -38,10 +38,10 @@ set(SRC ${SRC} src/CRVE/Run.cpp)
 set(SRC ${SRC} src/CRVE/ReadMeshFromMsh.cpp)
 set(SRC ${SRC} src/CRVE/ReadMeshFromMsh4.cpp)
 set(SRC ${SRC} src/CRVE/ReadMeshFromGmsh2.cpp)
-
-set(SRC ${SRC} include/GmshIO.h src/GmshIO.cpp src/GmshIOGetInfo.cpp)
-set(SRC ${SRC} src/ReadMesh.cpp src/Init.cpp src/LableCubic.cpp src/JudgeFuns.cpp)
-set(SRC ${SRC} src/PrepareInfoBeforeSave.cpp)
+set(SRC ${SRC} src/CRVE/GetGmshInfo.cpp)
+set(SRC ${SRC} src/CRVE/LableRVE.cpp)
+set(SRC ${SRC} src/CRVE/JudgeFuns.cpp)
+set(SRC ${SRC} src/CRVE/SaveNewMesh.cpp)
 
 
 add_executable(crve ${SRC})

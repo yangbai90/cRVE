@@ -16,7 +16,7 @@ void CRVE::ReadMeshFromGmsh2(){
     _PhysicGroupDimVec.clear();
     _PhysicID2NameVec.clear();
     _PhysicName2IDVec.clear();
-
+    _nVolumeElmts=0;
     
     string str;
     double version;
@@ -97,19 +97,21 @@ void CRVE::ReadMeshFromGmsh2(){
         else if(str.find("$Elements")!=string::npos){
             _nElmts=0;
             in>>_nElmts;
-            _ElmtConn.resize(_nElmts,vector<long int>(0));
-            
-            _ElmtDimVec.resize(_nElmts,0);
+            _ElmtConn.resize(_nElmts,vector<int>(0));
             _ElmtTypeVec.resize(_nElmts,0);
+            _ElmtDimVec.resize(_nElmts,0);
             _ElmtPhyIDVec.resize(_nElmts,0);
             _ElmtGeoIDVec.resize(_nElmts,0);
+
+            _nVolumeElmts=0;
 
             long int elmtid;
             int phyid,geoid,ntags,elmttype;
             int nodes,dim;
             _MeshUniGeoID.clear();
             _MeshUniPhyID.clear();
-            for(long int ie=0;ie<_nElmts;ie++){
+            int tempid;
+            for(int ie=0;ie<_nElmts;ie++){
                 in>>elmtid>>elmttype>>ntags>>phyid>>geoid;
                 nodes=GetNodesNumViaElmtType(elmttype);
                 dim=GetElmtDimViaElmtType(elmttype);
@@ -122,12 +124,21 @@ void CRVE::ReadMeshFromGmsh2(){
                 for(int j=0;j<nodes;j++){
                     in>>_ElmtConn[elmtid-1][j+1];
                 }
+                if(dim==3&&nodes==4){
+                    // for tet 4 mesh
+                    tempid=_ElmtConn[elmtid-1][3];
+                    _ElmtConn[elmtid-1][3]=_ElmtConn[elmtid-1][4];
+                    _ElmtConn[elmtid-1][4]=tempid;
+                }
+
+                if(dim==3){
+                    _nVolumeElmts+=1;
+                }
+               
                 _ElmtDimVec[elmtid-1]=dim;
                 _ElmtTypeVec[elmtid-1]=elmttype;
                 _ElmtPhyIDVec[elmtid-1]=phyid;
                 _ElmtGeoIDVec[elmtid-1]=geoid;
-
-                
 
                 if(_MeshUniGeoID.size()==0){
                     _MeshUniGeoID.push_back(geoid);
@@ -135,8 +146,7 @@ void CRVE::ReadMeshFromGmsh2(){
                 }
                 else{
                     bool IsUni=true;
-                    for(unsigned int i=0;i<_MeshUniGeoID.size();i++)
-                    {
+                    for(unsigned int i=0;i<_MeshUniGeoID.size();i++){
                         if(geoid==_MeshUniGeoID[i]||phyid==_MeshUniPhyID[i]){
                             IsUni=false;
                             break;
@@ -150,15 +160,67 @@ void CRVE::ReadMeshFromGmsh2(){
             }
         }
     }// while read file loop
+    in.close();
 
 
-    if(_MeshUniPhyID.size()==2){
-        _MatrixPhyID=_MeshUniPhyID[0];
-        _ParticlePhyID=_MeshUniPhyID[1];
+    if(!_IsParticleIDSet){
+        if(_MeshUniPhyID.size()>=2){
+            _ParticlePhyID=_MeshUniPhyID[_MeshUniPhyID.size()-1];
+        }
+        else{
+            _ParticlePhyID=50000;
+        }
     }
-    else if(_MeshUniPhyID.size()>2){
-        // for multiple fibers case
-        _MatrixPhyID=-1;
-        _ParticlePhyID=1;
+    else{
+        // we need to check the physical id given by user is valid or not
+        bool IsValid;
+        IsValid=false;
+        for(auto it:_MeshUniPhyID){
+            if(it==_ParticlePhyID){
+                IsValid=true;
+                break;
+            }
+        }
+        if(!IsValid){
+            cout<<"*************************************************************************"<<endl;
+            cout<<"*** Error: invalid physical id for particle given by user !!!         ***"<<endl;
+            cout<<"*************************************************************************"<<endl;
+            abort();
+        }
     }
+
+    if(!_IsMatrixIDSet){
+        if(_MeshUniPhyID.size()>=2){
+            _MatrixPhyID=_MeshUniPhyID[_MeshUniPhyID.size()-2];
+        }
+        else{
+            _MatrixPhyID=50000-1;
+        }
+    }
+    else{
+        bool IsValid;
+        IsValid=false;
+        for(auto it:_MeshUniPhyID){
+            if(it==_MatrixPhyID){
+                IsValid=true;
+                break;
+            }
+        }
+        if(!IsValid){
+            cout<<"*************************************************************************"<<endl;
+            cout<<"*** Error: invalid physical id for matrix given by user !!!           ***"<<endl;
+            cout<<"*************************************************************************"<<endl;
+            abort();
+        }
+    }
+
+    // if(_MeshUniPhyID.size()==2){
+    //     _MatrixPhyID=_MeshUniPhyID[0];
+    //     _ParticlePhyID=_MeshUniPhyID[1];
+    // }
+    // else if(_MeshUniPhyID.size()>2){
+    //     // for multiple fibers case
+    //     _MatrixPhyID=-1;
+    //     _ParticlePhyID=1;
+    // }
 }

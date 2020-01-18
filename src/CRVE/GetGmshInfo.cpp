@@ -1,9 +1,7 @@
-#include "GmshIO.h"
+#include "CRVE.h"
 
-int GmshIO::GetNodesNumViaElmtType(int elmttype) const
-{
-    switch(elmttype)
-    {
+int CRVE::GetNodesNumViaElmtType(int elmttype) const{
+    switch(elmttype){
         case 1:
             // 2-node line
             return 2;
@@ -109,9 +107,8 @@ int GmshIO::GetNodesNumViaElmtType(int elmttype) const
     }
 }
 //*********************************************************
-int GmshIO::GetSurfaceElmtTypeViaBulkElmtType(int elmttype) const{
-    switch(elmttype)
-    {
+int CRVE::GetSurfaceElmtTypeViaBulkElmtType(int elmttype) const{
+    switch(elmttype){
         case 1:
             // 2-node line
             return -1;
@@ -218,10 +215,8 @@ int GmshIO::GetSurfaceElmtTypeViaBulkElmtType(int elmttype) const{
     return -1;
 }
 //*********************************************************
-int GmshIO::GetElmtDimViaElmtType(int elmttype) const
-{
-    switch(elmttype)
-    {
+int CRVE::GetElmtDimViaElmtType(int elmttype) const{
+    switch(elmttype){
         case 1:
             // 2-node line
             return 1;
@@ -329,10 +324,8 @@ int GmshIO::GetElmtDimViaElmtType(int elmttype) const
 
 //*******************************************************
 //*********************************************************
-string GmshIO::GetElmtNameViaElmtType(int elmttype) const
-{
-    switch(elmttype)
-    {
+string CRVE::GetElmtNameViaElmtType(int elmttype) const{
+    switch(elmttype){
         case 1:
             // 2-node line
             return "edge";
@@ -440,9 +433,8 @@ string GmshIO::GetElmtNameViaElmtType(int elmttype) const
 //*****************************************
 //** get local information
 //*****************************************
-int GmshIO::GetElmtSurfaceNumsViaElmtType(int elmttype) const{
-    switch(elmttype)
-    {
+int CRVE::GetElmtSurfaceNumsViaElmtType(int elmttype) const{
+    switch(elmttype){
         case 1:
             // 2-node line
             return 0;
@@ -550,11 +542,10 @@ int GmshIO::GetElmtSurfaceNumsViaElmtType(int elmttype) const{
 //*************************************
 //*** get the conn of surface from a 3D volume element
 //*************************************
-vector<long int> GmshIO::GetIthElmtJthSurfaceConn(const int &elmttype,const int &e,const int &j)const{
-    vector<long int> conn,elConn;
+vector<int> CRVE::GetIthElmtJthSurfaceConn(const int &elmttype,const int &e,const int &j)const{
+    vector<int> conn,elConn;
     conn.clear();
-    switch(elmttype)
-    {
+    switch(elmttype){
         case 1:
             // 2-node line
             return conn;
