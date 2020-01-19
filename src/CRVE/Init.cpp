@@ -20,12 +20,12 @@ bool CRVE::Init(int args,char *argv[]){
         if(string(argv[i]).find("-i")!=string::npos){
             if(i<args-1){
                 SetMeshFileName(string(argv[i+1]));
-                SetMeshTpye(MeshType::MSH);
+                SetMeshType(MeshType::MSH);
                 if(GetMshVersionFromMshFile(GetMeshFileName())>2.2){
-                    SetMeshTpye(MeshType::MSH4);
+                    SetMeshType(MeshType::MSH4);
                 }
                 if(string(argv[i+1]).find(".gmsh2")!=string::npos){
-                    SetMeshTpye(MeshType::GMSH2);
+                    SetMeshType(MeshType::GMSH2);
                 }
             }
             else{
