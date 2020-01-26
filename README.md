@@ -9,7 +9,7 @@ Step-3. label out all the boundaries use cRVE, especially the common surface whe
 
 # Install
 ```shell
-git clone https://github.com/walkandthinker/cRVE.git
+git clone https://github.com/yangbai90/cRVE.git
 
 cd cRVE
 
