@@ -4,7 +4,7 @@ CRVE::CRVE(){
     _MeshFileName.clear();_NewMeshFileName.clear();
     _MeshType=MeshType::MSH;
     _Tol=1.0e-3;
-    _IsPrint=false;
+    _IsPrint=true;
     _IsParticleIDSet=false;_IsMatrixIDSet=false;
 
     //*******************************************

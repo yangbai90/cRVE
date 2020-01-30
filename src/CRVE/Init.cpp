@@ -17,7 +17,7 @@ bool CRVE::Init(int args,char *argv[]){
         return false;
     }
 
-    _IsPrint=false;
+    _IsPrint=true;
     _IsParticleIDSet=false;_IsMatrixIDSet=false;
 
     for(int i=0;i<args;++i){

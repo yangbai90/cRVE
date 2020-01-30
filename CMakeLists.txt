@@ -42,6 +42,7 @@ set(SRC ${SRC} src/CRVE/GetGmshInfo.cpp)
 set(SRC ${SRC} src/CRVE/LableRVE.cpp)
 set(SRC ${SRC} src/CRVE/JudgeFuns.cpp)
 set(SRC ${SRC} src/CRVE/SaveNewMesh.cpp)
+set(SRC ${SRC} src/CRVE/PrintInfo.cpp)
 
 
 add_executable(crve ${SRC})

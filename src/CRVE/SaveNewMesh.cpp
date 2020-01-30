@@ -75,82 +75,67 @@ void CRVE::SaveNewMesh(){
         //elm-number elm-type number-of-tags < tag > ... node-number-list
         out<<iInd<<" "<<_XminElmtTypeVec[i]<<" "<<2<<" ";
         out<<_XminElmtPhyID[i]<<" "<<_XminElmtPhyID[i]<<" ";
-        for(int j=0;j<int(_XminElConn[i].size());j++)
-        {
+        for(int j=0;j<int(_XminElConn[i].size());j++){
             out<<_XminElConn[i][j]<<" ";
-            cout<<_XminElConn[i][j]<<" ";
         }
-        cout<<endl;
         out<<"\n";
     }
-    for(int i=0;i<int(_XmaxElConn.size());i++)
-    {
+    for(int i=0;i<int(_XmaxElConn.size());i++){
         iInd+=1;
         out<<iInd<<" "<<_XmaxElmtTypeVec[i]<<" "<<2<<" ";
         out<<_XmaxElmtPhyID[i]<<" "<<_XmaxElmtPhyID[i]<<" ";
-        for(int j=0;j<int(_XmaxElConn[i].size());j++)
-        {
+        for(int j=0;j<int(_XmaxElConn[i].size());j++){
             out<<_XmaxElConn[i][j]<<" ";
         }
         out<<endl;
     }
     //*********************************
-    for(int i=0;i<int(_YminElConn.size());i++)
-    {
+    for(int i=0;i<int(_YminElConn.size());i++){
         iInd+=1;
         out<<iInd<<" "<<_YminElmtTypeVec[i]<<" "<<2<<" ";
         out<<_YminElmtPhyID[i]<<" "<<_YminElmtPhyID[i]<<" ";
-        for(int j=0;j<int(_YminElConn[i].size());j++)
-        {
+        for(int j=0;j<int(_YminElConn[i].size());j++){
             out<<_YminElConn[i][j]<<" ";
         }
         out<<endl;
     }
-    for(int i=0;i<int(_YmaxElConn.size());i++)
-    {
+    for(int i=0;i<int(_YmaxElConn.size());i++){
         iInd+=1;
         out<<iInd<<" "<<_YmaxElmtTypeVec[i]<<" "<<2<<" ";
         out<<_YmaxElmtPhyID[i]<<" "<<_YmaxElmtPhyID[i]<<" ";
-        for(int j=0;j<int(_YmaxElConn[i].size());j++)
-        {
+        for(int j=0;j<int(_YmaxElConn[i].size());j++){
             out<<_YmaxElConn[i][j]<<" ";
         }
         out<<endl;
     }
     //***********************************
-    for(int i=0;i<int(_ZminElConn.size());i++)
-    {
+    for(int i=0;i<int(_ZminElConn.size());i++){
         iInd+=1;
         out<<iInd<<" "<<_ZminElmtTypeVec[i]<<" "<<2<<" ";
         out<<_ZminElmtPyhID[i]<<" "<<_ZminElmtPyhID[i]<<" ";
-        for(int j=0;j<int(_ZminElConn[i].size());j++)
-        {
+        for(int j=0;j<int(_ZminElConn[i].size());j++){
             out<<_ZminElConn[i][j]<<" ";
         }
         out<<endl;
     }
-    for(int i=0;i<int(_ZmaxElConn.size());i++)
-    {
+    for(int i=0;i<int(_ZmaxElConn.size());i++){
         iInd+=1;
         out<<iInd<<" "<<_ZmaxElmtTypeVec[i]<<" "<<2<<" ";
         out<<_ZMaxElmtPhyID[i]<<" "<<_ZMaxElmtPhyID[i]<<" ";
-        for(int j=0;j<int(_ZmaxElConn[i].size());j++)
-        {
+        for(int j=0;j<int(_ZmaxElConn[i].size());j++){
             out<<_ZmaxElConn[i][j]<<" ";
         }
         out<<endl;
     }
     // now write out the volume mesh
-    for(int i=1;i<=_nElmts;i++)
-    {
+    for(int i=1;i<=_nElmts;i++){
         if(_ElmtDimVec[i-1]==3){
             iInd+=1;
             out<<iInd<<" "<<4<<" "<<2<<" ";
             out<<_ElmtPhyIDVec[i-1]<<" "
                <<_ElmtPhyIDVec[i-1]<<" ";
         
-            for(int j=0;j<_ElmtConn[i-1][0];j++)
-            {
+            for(int j=0;j<_ElmtConn[i-1][0];j++){
                 out<<_ElmtConn[i-1][1+j]<<" ";
             }
             out<<endl;
@@ -158,7 +143,4 @@ void CRVE::SaveNewMesh(){
     }
     out<<"$EndElements"<<endl;
 
-    cout<<"*************************************************************************"<<endl;
-   printf("*** Job finished, write new mesh to %30s   ***\n",_NewMeshFileName.c_str());
-    cout<<"*************************************************************************"<<endl;
 }

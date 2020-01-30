@@ -22,6 +22,7 @@ public:
     CRVE();
     bool Init(int args,char *argv[]);
     void Run();
+    void PrintInfo();
 
     //********************************************
     //** basic setting functions
@@ -125,4 +126,9 @@ private:
                      _YminElmtPhyNameVec,_YmaxElmtPhyNameVec,
                      _ZminElmtPhyNameVec,_ZmaxElmtPhyNameVec;
 
+
+private:
+    // For time measurement
+    chrono::high_resolution_clock::time_point _JobStartTime,_JobEndTime;
+    double _Duration;
 };
