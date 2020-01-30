@@ -66,6 +66,7 @@ void CRVE::ReadMeshFromGmsh2(){
             // start to read the node block
             _nNodes=0;
             in>>_nNodes;
+            
             _NodeCoords.resize(_nNodes*3,0.0);
             int id;
             double x,y,z;

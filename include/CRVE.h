@@ -51,7 +51,7 @@ public:
         vector<int> tempconn;
         tempconn.resize(_ElmtConn[i-1][0]);
         for(int j=1;j<=_ElmtConn[i-1][0];j++){
-            tempconn[j-1]=_ElmtConn[i-1][j-1];
+            tempconn[j-1]=_ElmtConn[i-1][j];
         }
         return tempconn;
     }
@@ -112,7 +112,7 @@ private:
     vector<vector<int>> _XminElConn,_XmaxElConn,
                              _YminElConn,_YmaxElConn,
                              _ZminElConn,_ZmaxElConn;
-    vector<long int> _XminElmtID,_XmaxElmtID,
+    vector<int>      _XminElmtID,_XmaxElmtID,
                      _YminElmtID,_YmaxElmtID,
                      _ZminElmtID,_ZmaxElmtID;
     vector<int>      _XminElmtPhyID,_XmaxElmtPhyID,

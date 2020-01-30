@@ -48,7 +48,7 @@ void CRVE::SaveNewMesh(){
     // write out nodes
     out<<"$Nodes\n";
     out<<_nNodes<<"\n";
-    for(long int i=1;i<=_nNodes;i++)
+    for(int i=1;i<=_nNodes;i++)
     {
         out<<i<<" ";
         out<<scientific<<setprecision(6)<<GetIthNodeJthCoord(i,1)<<" ";
@@ -78,7 +78,9 @@ void CRVE::SaveNewMesh(){
         for(int j=0;j<int(_XminElConn[i].size());j++)
         {
             out<<_XminElConn[i][j]<<" ";
+            cout<<_XminElConn[i][j]<<" ";
         }
+        cout<<endl;
         out<<"\n";
     }
     for(int i=0;i<int(_XmaxElConn.size());i++)

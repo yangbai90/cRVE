@@ -9,12 +9,16 @@ bool CRVE::Init(int args,char *argv[]){
         }
     }
 
+
     if(args<3){
         cout<<"*************************************************************************"<<endl;
         cout<<"*** Error: -i *.msh or -i *.gmsh2 should be given!!!                  ***"<<endl;
         cout<<"*************************************************************************"<<endl;
         return false;
     }
+
+    _IsPrint=false;
+    _IsParticleIDSet=false;_IsMatrixIDSet=false;
 
     for(int i=0;i<args;++i){
         if(string(argv[i]).find("-i")!=string::npos){
