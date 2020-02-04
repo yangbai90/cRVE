@@ -3,8 +3,8 @@ import numpy as np
 w1=35.0;w2=15.0 # thickness=w1+w2
 h=4.0
 
-bulkmeshsize=1.2
-surfacemeshsize=0.8
+bulkmeshsize=1.0
+surfacemeshsize=0.5
 
 ####################################
 ### parameters for the balls
