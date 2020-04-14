@@ -24,8 +24,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -O2 -Wall -Wextra -Werror")
 ################################################
 ### For basic framework                      ###
 ################################################
-set(SRC src/main.cpp)
-
+set(src include/Welcome.h src/main.cpp)
+set(src ${src} include/CRVE.h)
 
 ################################################
 ### For basic framework                      ###
@@ -33,5 +33,5 @@ set(SRC src/main.cpp)
 
 
 
-add_executable(crve ${SRC})
+add_executable(crve ${src})
 
