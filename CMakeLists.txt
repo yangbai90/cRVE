@@ -26,10 +26,20 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -O2 -Wall -Wextra -Werror")
 ################################################
 set(src include/Welcome.h src/main.cpp)
 set(src ${src} include/CRVE.h)
+set(src ${src} src/CRVE/CRVE.cpp)
+set(src ${src} src/CRVE/Run.cpp)
+set(src ${src} src/CRVE/GetGmshFileInfo.cpp)
+set(src ${src} src/CRVE/ReadMsh2File.cpp)
+set(src ${src} src/CRVE/ReadMsh4File.cpp)
+set(src ${src} src/CRVE/LableBC.cpp)
+set(src ${src} src/CRVE/JudgeFuns.cpp)
+set(src ${src} src/CRVE/SaveMesh.cpp)
 
 ################################################
-### For basic framework                      ###
+### For String Utils                         ###
 ################################################
+set(src ${src} include/StringUtils.h)
+set(src ${src} src/StringUtils.cpp)
 
 
 
