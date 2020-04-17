@@ -187,7 +187,7 @@ CRVE::CRVE(int args,char *argv[]){
 }
 
 //****************************************************
-void CRVE::PrintHelp(){
+void CRVE::PrintHelp()const{
     cout<<"*************************************************************************"<<endl;
     cout<<"*** Normally, you should run: 'crve -i your.msh'                      ***"<<endl;
     cout<<"*** To show this menu: 'crve -h' or 'crve -help'                      ***"<<endl;

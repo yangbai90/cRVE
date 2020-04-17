@@ -25,8 +25,8 @@ public:
     void LableBC();
     void SaveMesh();
 
-    void PrintHelp();
-    void PrintInfo();
+    void PrintHelp() const;
+    void PrintInfo() const;
 
 private:
     //**********************************************
@@ -86,6 +86,7 @@ private:
     //*** for the mesh file information
     //********************************************
     string _InputMeshFileName;
+    string _OutputMeshFileName="";
     bool _HasFileName;
 
 private:
@@ -121,12 +122,13 @@ private:
     //*********************************************
     //*** for BC labeling
     //*********************************************
-    vector<vector<int>> _Left,_Right,_Bottom,_Top,_Back,_Front;
+    vector<vector<int>> _RVEElmtConn;
     vector<int> _RVEElmtPhyID,_RVEElmtTypeID;
     vector<string> _RVEPhyGroupNameList;
     vector<pair<int,string>> _RVEPhyID2NameList;
     vector<pair<string,int>> _RVEPhyName2IDList;
     vector<int> _RVEPhyDimVec;
+    vector<int> _RVEPhyElmtsNumList;
 
 
 private:

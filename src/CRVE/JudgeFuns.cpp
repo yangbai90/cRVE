@@ -14,9 +14,9 @@ bool CRVE::IsNodeOnBC(const int &nodeid,const int &component,const double &bccoo
 //**********************************
 bool CRVE::IsNodesOnBC(const vector<int> &nodeids,const int &component,const double &bccoord)const{
     bool IsOn=true;
-    for(auto it:nodeids){
+    for(int i=0;i<static_cast<int>(nodeids.size());i++){
         // cout<<it<<" ";
-        if(!IsNodeOnBC(it,component,bccoord)){
+        if(!IsNodeOnBC(nodeids[i],component,bccoord)){
             IsOn=false;
             break;
         }

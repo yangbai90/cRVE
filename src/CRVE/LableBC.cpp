@@ -9,9 +9,7 @@ void CRVE::LableBC(){
         abort();
     }
 
-    _Left.clear();_Right.clear();
-    _Bottom.clear();_Top.clear();
-    _Back.clear();_Front.clear();
+    _RVEElmtConn.clear();
 
     bool _HasMLeft=false,_HasMRight=false;
     bool _HasMBottom=false,_HasMTop=false;
@@ -34,18 +32,20 @@ void CRVE::LableBC(){
     _RVEElmtTypeID.clear();
     vector<int> elConn,conn;
     _nRVEBCElmts=0;
+    // cout<<"Tol"<<_Tol<<endl;
     for(ee=1;ee<=_nBulkElmt;ee++){
         e=ee+_nElmts-_nBulkElmt;
         elConn=GetIthElmtConn(e);
         elmttype=GetIthElmtType(e);
         subelmttpye=GetSubElmtTypeViaGmshElmtType(elmttype);
         phyid=GetIthElmtPhyID(e);
+        // cout<<"e="<<e<<", phyid="<<phyid<<endl;
         for(int isurface=1;isurface<=GetSurfaceNumsViaGmshElmtType(elmttype);isurface++){
             conn=GetIthElmtJthSurfaceNodeIndex(elmttype,e,isurface);
             //***********************************************
             //***********************************************
             if(IsNodesOnBC(conn,1,_Xmin)){
-                _Left.push_back(conn);
+                _RVEElmtConn.push_back(conn);
                 _RVEElmtTypeID.push_back(subelmttpye);
                 _nRVEBCElmts+=1;
                 if(phyid==_MatrixID){
@@ -66,7 +66,7 @@ void CRVE::LableBC(){
             }
             //****************************************
             if(IsNodesOnBC(conn,1,_Xmax)){
-                _Right.push_back(conn);
+                _RVEElmtConn.push_back(conn);
                 _RVEElmtTypeID.push_back(subelmttpye);
                 _nRVEBCElmts+=1;
                 if(phyid==_MatrixID){
@@ -88,7 +88,7 @@ void CRVE::LableBC(){
             //***********************************************
             //***********************************************
             if(IsNodesOnBC(conn,2,_Ymin)){
-                _Bottom.push_back(conn);
+                _RVEElmtConn.push_back(conn);
                 _RVEElmtTypeID.push_back(subelmttpye);
                 _nRVEBCElmts+=1;
                 if(phyid==_MatrixID){
@@ -109,7 +109,7 @@ void CRVE::LableBC(){
             }
             //****************************************
             if(IsNodesOnBC(conn,2,_Ymax)){
-                _Top.push_back(conn);
+                _RVEElmtConn.push_back(conn);
                 _RVEElmtTypeID.push_back(subelmttpye);
                 _nRVEBCElmts+=1;
                 if(phyid==_MatrixID){
@@ -131,7 +131,7 @@ void CRVE::LableBC(){
             //***********************************************
             //***********************************************
             if(IsNodesOnBC(conn,3,_Zmin)){
-                _Back.push_back(conn);
+                _RVEElmtConn.push_back(conn);
                 _RVEElmtTypeID.push_back(subelmttpye);
                 _nRVEBCElmts+=1;
                 if(phyid==_MatrixID){
@@ -152,7 +152,7 @@ void CRVE::LableBC(){
             }
             //***********************************************
             if(IsNodesOnBC(conn,3,_Zmax)){
-                _Front.push_back(conn);
+                _RVEElmtConn.push_back(conn);
                 _RVEElmtTypeID.push_back(subelmttpye);
                 _nRVEBCElmts+=1;
                 if(phyid==_MatrixID){
@@ -173,6 +173,8 @@ void CRVE::LableBC(){
             }
         }
     }
+
+    // cout<<"nLeft="<<_Left.size()<<", nRight="<<_Right.size()<<endl;
 
     if(_nRVEBCElmts<1){
         cout<<"*************************************************************************"<<endl;
@@ -277,5 +279,8 @@ void CRVE::LableBC(){
     _RVEPhyID2NameList.push_back(make_pair(_ParticleID,"particle"));
     _RVEPhyName2IDList.push_back(make_pair("particle",_ParticleID));
     _RVEPhyDimVec.push_back(3);
+
+    _RVEPhyElmtsNumList.resize(1+_RVEPhyGroupNameList.size(),0);
+
 
 }

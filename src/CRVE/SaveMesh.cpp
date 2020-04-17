@@ -3,6 +3,7 @@
 void CRVE::SaveMesh(){
     ofstream out;
     string filename="new_"+_InputMeshFileName;
+    _OutputMeshFileName=filename;
     out.open(filename.c_str(),ios::out);
 
     out<<"$MeshFormat\n";
@@ -36,62 +37,19 @@ void CRVE::SaveMesh(){
     int iInd=0;
     //*********************************
     //*** elm-number elm-type number-of-tags < tag > ... node-number-list
-    for(int i=0;i<static_cast<int>(_Left.size());i++){
+    for(auto &it:_RVEPhyElmtsNumList) it=0;
+    for(int i=0;i<static_cast<int>(_RVEElmtConn.size());i++){
         iInd+=1;
         //elm-number elm-type number-of-tags < tag > ... node-number-list
-        out<<iInd<<" "<<_RVEElmtTypeID[iInd-1]<<" "<<2<<" ";
-        out<<_RVEElmtPhyID[iInd-1]<<" "<<_RVEElmtPhyID[iInd-1]<<" ";
-        for(int j=0;j<static_cast<int>(_Left[i].size());j++){
-            out<<_Left[i][j]<<" ";
-        }
-        out<<"\n";
-    }
-    for(int i=0;i<static_cast<int>(_Right.size());i++){
-        iInd+=1;
-        out<<iInd<<" "<<_RVEElmtTypeID[iInd-1]<<" "<<2<<" ";
-        out<<_RVEElmtPhyID[iInd-1]<<" "<<_RVEElmtPhyID[iInd-1]<<" ";
-        for(int j=0;j<static_cast<int>(_Right[i].size());j++){
-            out<<_Right[i][j]<<" ";
-        }
-        out<<"\n";
-    }
-    //*********************************
-    for(int i=0;i<static_cast<int>(_Bottom.size());i++){
-        iInd+=1;
-        out<<iInd<<" "<<_RVEElmtTypeID[iInd-1]<<" "<<2<<" ";
-        out<<_RVEElmtPhyID[iInd-1]<<" "<<_RVEElmtPhyID[iInd-1]<<" ";
-        for(int j=0;j<static_cast<int>(_Bottom[i].size());j++){
-            out<<_Bottom[i][j]<<" ";
-        }
-        out<<"\n";
-    }
-    for(int i=0;i<static_cast<int>(_Top.size());i++){
-        iInd+=1;
-        out<<iInd<<" "<<_RVEElmtTypeID[iInd-1]<<" "<<2<<" ";
-        out<<_RVEElmtPhyID[iInd-1]<<" "<<_RVEElmtPhyID[iInd-1]<<" ";
-        for(int j=0;j<static_cast<int>(_Top[i].size());j++){
-            out<<_Top[i][j]<<" ";
-        }
-        out<<"\n";
-    }
-    //***********************************
-    for(int i=0;i<static_cast<int>(_Back.size());i++){
-        iInd+=1;
-        out<<iInd<<" "<<_RVEElmtTypeID[iInd-1]<<" "<<2<<" ";
+        out<<iInd<<" "<<_RVEElmtTypeID[i]<<" "<<2<<" ";
         out<<_RVEElmtPhyID[i]<<" "<<_RVEElmtPhyID[i]<<" ";
-        for(int j=0;j<static_cast<int>(_Back[i].size());j++){
-            out<<_Back[i][j]<<" ";
+        for(int j=0;j<static_cast<int>(_RVEElmtConn[i].size());j++){
+            out<<_RVEElmtConn[i][j]<<" ";
         }
         out<<"\n";
-    }
-    for(int i=0;i<static_cast<int>(_Front.size());i++){
-        iInd+=1;
-        out<<iInd<<" "<<_RVEElmtTypeID[iInd-1]<<" "<<2<<" ";
-        out<<_RVEElmtPhyID[i]<<" "<<_RVEElmtPhyID[i]<<" ";
-        for(int j=0;j<static_cast<int>(_Front[i].size());j++){
-            out<<_Front[i][j]<<" ";
-        }
-        out<<"\n";
+        
+        _RVEPhyElmtsNumList[_RVEElmtPhyID[i]]+=1;
+        
     }
     //*******************************************************
     int e,ei;
@@ -104,6 +62,12 @@ void CRVE::SaveMesh(){
             out<<_ElmtConn[e-1][j+1]<<" ";
         }
         out<<"\n";
+        if(GetIthElmtPhyID(e)==_MatrixID){
+            _RVEPhyElmtsNumList[_RVEPhyElmtsNumList.size()-1]+=1;
+        }
+        else if(GetIthElmtPhyID(e)==_ParticleID){
+            _RVEPhyElmtsNumList[_RVEPhyElmtsNumList.size()  ]+=1;
+        }
     }
     out<<"$EndElements"<<endl;
 

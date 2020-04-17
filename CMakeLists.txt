@@ -34,7 +34,7 @@ set(src ${src} src/CRVE/ReadMsh4File.cpp)
 set(src ${src} src/CRVE/LableBC.cpp)
 set(src ${src} src/CRVE/JudgeFuns.cpp)
 set(src ${src} src/CRVE/SaveMesh.cpp)
-
+set(src ${src} src/CRVE/PrintInfo.cpp)
 ################################################
 ### For String Utils                         ###
 ################################################

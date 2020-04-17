@@ -105,15 +105,20 @@ void CRVE::ReadMsh2File(){
             _MeshUniDim2GeoID.clear();
             for(int ie=0;ie<_nElmts;ie++){
                 in>>elmtid>>elmttype>>ntags>>phyid>>geoid;
+                if(phyid==0&&geoid!=0) phyid=geoid;
                 nodes=GetElmtNodesNumViaGmshElmtType(elmttype);
                 dim=GetElmtDimViaGmshElmtType(elmttype);
 
-                if(phyid==MatrixMshPhyID||phyid==ParticleMshPhyID){
-                    if(phyid<100) phyid+=100000;
-                }
 
                 if(dim>_nMaxDim) _nMaxDim=dim;
                 if(dim<_nMinDim) _nMinDim=dim;
+
+                if(phyid==MatrixMshPhyID||phyid==ParticleMshPhyID){
+                    if(dim==3){
+                        if(phyid<100) phyid+=100000;
+                    }
+                }
+
 
                 _ElmtConn[elmtid-1].resize(nodes+1,0);
                 _ElmtConn[elmtid-1][0]=nodes;
@@ -175,6 +180,8 @@ void CRVE::ReadMsh2File(){
         if(ParticleMshPhyID<100) ParticleMshPhyID+=100000;
         _ParticleID=ParticleMshPhyID;
     }
+
+    // cout<<"MatrixID="<<_MatrixID<<", ParticleID="<<_ParticleID<<endl;
 
     in.close();
 }
