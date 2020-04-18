@@ -21,12 +21,15 @@ public:
     CRVE(int args,char *argv[]);
 
     void Run();
-    void ReadMesh();
-    void LableBC();
-    void SaveMesh();
 
     void PrintHelp() const;
     void PrintInfo() const;
+
+private:
+    void ReadMesh();
+    void LableBC();
+    void SaveMesh();
+    void CalcAreaAndVolume();
 
 private:
     //**********************************************
@@ -129,6 +132,7 @@ private:
     vector<pair<string,int>> _RVEPhyName2IDList;
     vector<int> _RVEPhyDimVec;
     vector<int> _RVEPhyElmtsNumList;
+    vector<double> _RVEVolumeList;
 
 
 private:
@@ -136,4 +140,18 @@ private:
     //*** for time profiling
     //*************************************
     chrono::high_resolution_clock::time_point _StartTime,_EndTime;
+    chrono::high_resolution_clock::time_point _StartFEMTime,_EndFEMTime;
+
+private:
+    //**************************************
+    //*** for shape function
+    //**************************************
+    int _nGP=2;
+    double _dxdxi=0.0,_dydxi=0.0,_dzdxi=0.0;
+    double _dxdeta=0.0,_dydeta=0.0,_dzdeta=0.0;
+    double _dxdzeta=0.0,_dydzeta=0.0,_dzdzeta=0.0;
+    double _Shp[28][4];
+    double _Jac[3][3];
+    double Shp2d(const int &nNodes,const int &elmttype,const double &xi,const double &eta,const double (&X)[28],const double (&Y)[28],const double (&Z)[28]);
+    double Shp3d(const int &nNodes,const int &elmttype,const double &xi,const double &eta,const double &zeta,const double (&X)[28],const double (&Y)[28],const double (&Z)[28]);
 };

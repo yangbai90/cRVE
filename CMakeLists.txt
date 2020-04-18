@@ -35,6 +35,8 @@ set(src ${src} src/CRVE/LableBC.cpp)
 set(src ${src} src/CRVE/JudgeFuns.cpp)
 set(src ${src} src/CRVE/SaveMesh.cpp)
 set(src ${src} src/CRVE/PrintInfo.cpp)
+set(src ${src} src/CRVE/ShapeFuns.cpp)
+set(src ${src} src/CRVE/CalcAreaAndVolume.cpp)
 ################################################
 ### For String Utils                         ###
 ################################################

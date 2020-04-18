@@ -150,6 +150,7 @@ void CRVE::ReadMsh2File(){
             }
         }
     }
+    in.close();
 
     _nBulkElmt=0;
     for(int e=0;e<_nElmts;e++){
@@ -183,5 +184,4 @@ void CRVE::ReadMsh2File(){
 
     // cout<<"MatrixID="<<_MatrixID<<", ParticleID="<<_ParticleID<<endl;
 
-    in.close();
 }

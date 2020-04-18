@@ -22,6 +22,8 @@ CRVE::CRVE(int args,char *argv[]){
 
     _Tol=1.0e-2;
 
+    _nGP=2;
+
     bool HasHelp=false;
 
     vector<double> numbers;

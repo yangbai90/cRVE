@@ -23,6 +23,11 @@ void CRVE::Run(){
     ReadMesh();
     LableBC();
     SaveMesh();
+
+    _StartFEMTime=chrono::high_resolution_clock::now();
+    CalcAreaAndVolume();
+    _EndFEMTime=chrono::high_resolution_clock::now();
+
     PrintInfo();
     _EndTime=chrono::high_resolution_clock::now();
     double Duration=chrono::duration_cast<std::chrono::microseconds>(_EndTime-_StartTime).count()/1.0e6;
