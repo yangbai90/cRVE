@@ -61,25 +61,33 @@ void CRVE::ReadMsh4File(){
             vector<int> temp;
 
             in>>nBlocks>>_nNodes>>minTag>>maxTag;
-            _NodeCoords.resize(_nNodes*3,0.0);
+            _NodeCoords.resize(maxTag*3,0.0);
+            _NodeRealIndex.resize(maxTag,0);
             _Cx=0.0;_Cy=0.0;_Cz=0.0;
 
             _Xmax=-1.0e16;_Xmin=1.0e16;
             _Ymax=_Xmax;_Ymin=_Xmin;
             _Zmax=_Xmax;_Zmin=_Xmin;
+            int noderealid0;
+            noderealid0=0;
             while(count<_nNodes){
                 in>>nEntityDim>>EntityTag>>Parametric>>numNodes;
                 temp.clear();
                 for(i=0;i<numNodes;i++){
                     in>>iInd;
                     temp.push_back(iInd);
+                    noderealid0+=1;
+                    _NodeRealIndex[iInd-1]=noderealid0;
                 }
                 for(i=0;i<numNodes;i++){
                     in>>x>>y>>z;
+                    // j=temp[i];
+                    // nodeid=_NodeRealIndex[j-1];
                     nodeid=temp[i];
                     _NodeCoords[(nodeid-1)*3+1-1]=x;
                     _NodeCoords[(nodeid-1)*3+2-1]=y;
                     _NodeCoords[(nodeid-1)*3+3-1]=z;
+
 
                     if(x>_Xmax) _Xmax=x;
                     if(x<_Xmin) _Xmin=x;
@@ -94,6 +102,7 @@ void CRVE::ReadMsh4File(){
                 }
                 count+=numNodes;
             }
+            // cout<<"nNodes="<<_nNodes<<", nodeid="<<noderealid0<<endl;
             getline(in,str);
         }
         else if(str.find("$Elements")!=string::npos){
@@ -103,17 +112,20 @@ void CRVE::ReadMsh4File(){
             int elmtid,e;
             int phyid;
             int nodes,dim;
+            int elmtrealid;
 
 
 
             in>>numEntity>>_nElmts>>minTag>>maxTag;
 
-            _ElmtConn.resize(_nElmts,vector<int>(0));
-            _ElmtDimVec.resize(_nElmts,0);
-            _ElmtTypeVec.resize(_nElmts,0);
-            _ElmtPhyIDVec.resize(_nElmts,0);
+            _ElmtConn.resize(maxTag,vector<int>(0));
+            _ElmtDimVec.resize(maxTag,0);
+            _ElmtTypeVec.resize(maxTag,0);
+            _ElmtPhyIDVec.resize(maxTag,0);
+            _ElmtRealIndex.resize(maxTag,0);
 
             count=0;
+            elmtrealid=0;
             while(count<_nElmts){
                 in>>EntityDim>>EntityTag>>elmttype>>numElmts;
                 // Entity tag is the final physical ID
@@ -130,6 +142,8 @@ void CRVE::ReadMsh4File(){
                 }
                 for(e=0;e<numElmts;e++){
                     in>>elmtid;
+                    elmtrealid+=1;
+                    _ElmtRealIndex[elmtid-1]=elmtrealid;
                     _ElmtConn[elmtid-1].resize(nodes+1,0);
                     _ElmtConn[elmtid-1][0]=nodes;
                     for(int j=0;j<nodes;j++){
