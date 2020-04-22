@@ -15,7 +15,9 @@ crve=0;e=0;o=0;jit=0;tmp=0;cmake=0;peacock=0;check=0
 for subdir,dirs,files in os.walk(currentdir):
     #>>> clean files
     for file in files:
-        if 'crve' in file:
+        if ('.msh' in file) or ('.gmsh2' in file) or ('.geo' in file) or ('.cpp' in file) or ('.h' in file) or ('CMakeLists.txt' in file) or ('.txt' in file) or ('.hpp' in file) or ('.py' in file) or ('.cxx' in file):
+            continue
+        elif ('crve' in file) or ('Crve' in file) or ('CRVE' in file):
             try:
                 crve+=1
                 removepath=subdir+'/'+file

@@ -24,12 +24,26 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -O2 -Wall -Wextra -Werror")
 ################################################
 ### For basic framework                      ###
 ################################################
-set(SRC src/main.cpp)
-set(SRC ${SRC} include/Help.h)
-set(SRC ${SRC} include/GmshIO.h src/GmshIO.cpp src/GmshIOGetInfo.cpp)
-set(SRC ${SRC} src/ReadMesh.cpp src/Init.cpp src/LableCubic.cpp src/JudgeFuns.cpp)
-set(SRC ${SRC} src/PrepareInfoBeforeSave.cpp)
+set(src include/Welcome.h src/main.cpp)
+set(src ${src} include/CRVE.h)
+set(src ${src} src/CRVE/CRVE.cpp)
+set(src ${src} src/CRVE/Run.cpp)
+set(src ${src} src/CRVE/GetGmshFileInfo.cpp)
+set(src ${src} src/CRVE/ReadMsh2File.cpp)
+set(src ${src} src/CRVE/ReadMsh4File.cpp)
+set(src ${src} src/CRVE/LableBC.cpp)
+set(src ${src} src/CRVE/JudgeFuns.cpp)
+set(src ${src} src/CRVE/SaveMesh.cpp)
+set(src ${src} src/CRVE/PrintInfo.cpp)
+set(src ${src} src/CRVE/ShapeFuns.cpp)
+set(src ${src} src/CRVE/CalcAreaAndVolume.cpp)
+################################################
+### For String Utils                         ###
+################################################
+set(src ${src} include/StringUtils.h)
+set(src ${src} src/StringUtils.cpp)
 
 
-add_executable(crve ${SRC})
+
+add_executable(crve ${src})
 
