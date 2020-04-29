@@ -15,6 +15,11 @@ void CRVE::ReadMsh4File(){
     int nPhysics=0;
     vector<int> PhyDimVec;
     vector<pair<int,string>> PhyID2NameList;
+    vector<double> NodeCoords;
+
+    vector<vector<int>> ElmtConn;
+    vector<int> ElmtDimVec,ElmtTypeVec,ElmtPhyIDVec,ElmtRealIndex;
+
     while(!in.eof()){
         getline(in,str);
         // cout<<"str="<<str<<endl;
@@ -61,7 +66,8 @@ void CRVE::ReadMsh4File(){
             vector<int> temp;
 
             in>>nBlocks>>_nNodes>>minTag>>maxTag;
-            _NodeCoords.resize(maxTag*3,0.0);
+            _NodeCoords.resize(_nNodes*3,0.0);
+            NodeCoords.resize(maxTag*3,0.0);
             _NodeRealIndex.resize(maxTag,0);
             _Cx=0.0;_Cy=0.0;_Cz=0.0;
 
@@ -76,17 +82,19 @@ void CRVE::ReadMsh4File(){
                 for(i=0;i<numNodes;i++){
                     in>>iInd;
                     temp.push_back(iInd);
-                    noderealid0+=1;
-                    _NodeRealIndex[iInd-1]=noderealid0;
+                    if(_NodeRealIndex[iInd-1]==0){
+                        noderealid0+=1;
+                        _NodeRealIndex[iInd-1]=noderealid0;
+                    }
                 }
                 for(i=0;i<numNodes;i++){
                     in>>x>>y>>z;
                     // j=temp[i];
                     // nodeid=_NodeRealIndex[j-1];
                     nodeid=temp[i];
-                    _NodeCoords[(nodeid-1)*3+1-1]=x;
-                    _NodeCoords[(nodeid-1)*3+2-1]=y;
-                    _NodeCoords[(nodeid-1)*3+3-1]=z;
+                    NodeCoords[(nodeid-1)*3+1-1]=x;
+                    NodeCoords[(nodeid-1)*3+2-1]=y;
+                    NodeCoords[(nodeid-1)*3+3-1]=z;
 
 
                     if(x>_Xmax) _Xmax=x;
@@ -118,11 +126,17 @@ void CRVE::ReadMsh4File(){
 
             in>>numEntity>>_nElmts>>minTag>>maxTag;
 
-            _ElmtConn.resize(maxTag,vector<int>(0));
-            _ElmtDimVec.resize(maxTag,0);
-            _ElmtTypeVec.resize(maxTag,0);
-            _ElmtPhyIDVec.resize(maxTag,0);
-            _ElmtRealIndex.resize(maxTag,0);
+            _ElmtConn.resize(_nElmts,vector<int>(0));
+            _ElmtDimVec.resize(_nElmts,0);
+            _ElmtTypeVec.resize(_nElmts,0);
+            _ElmtPhyIDVec.resize(_nElmts,0);
+            _ElmtRealIndex.resize(_nElmts,0);
+
+            ElmtDimVec.resize(maxTag,0);
+            ElmtTypeVec.resize(maxTag,0);
+            ElmtPhyIDVec.resize(maxTag,0);
+            ElmtRealIndex.resize(maxTag,0);
+            ElmtConn.resize(maxTag,vector<int>(0));
 
             count=0;
             elmtrealid=0;
@@ -142,16 +156,23 @@ void CRVE::ReadMsh4File(){
                 }
                 for(e=0;e<numElmts;e++){
                     in>>elmtid;
-                    elmtrealid+=1;
-                    _ElmtRealIndex[elmtid-1]=elmtrealid;
-                    _ElmtConn[elmtid-1].resize(nodes+1,0);
-                    _ElmtConn[elmtid-1][0]=nodes;
-                    for(int j=0;j<nodes;j++){
-                        in>>_ElmtConn[elmtid-1][j+1];
+                    if(_ElmtRealIndex[elmtid-1]==0){
+                        elmtrealid+=1;
+                        _ElmtRealIndex[elmtid-1]=elmtrealid;
                     }
-                    _ElmtDimVec[elmtid-1]=dim;
-                    _ElmtTypeVec[elmtid-1]=elmttype;
-                    _ElmtPhyIDVec[elmtid-1]=phyid;
+                    
+                    ElmtConn[elmtid-1].resize(nodes+1,0);
+                    ElmtConn[elmtid-1][0]=nodes;
+                    // if(elmtid==1){
+                    //     cout<<"we have it, nnodes="<<nodes<<endl;
+                    //     cout<<ElmtConn[elmtid-1][0]<<" "<<ElmtConn[elmtid-1].size()<<endl;
+                    // }
+                    for(int j=0;j<nodes;j++){
+                        in>>ElmtConn[elmtid-1][j+1];
+                    }
+                    ElmtDimVec[elmtid-1]=dim;
+                    ElmtTypeVec[elmtid-1]=elmttype;
+                    ElmtPhyIDVec[elmtid-1]=phyid;
                 }
                 count+=numElmts;
             }
@@ -159,12 +180,68 @@ void CRVE::ReadMsh4File(){
     }
     in.close();
 
+    // now we rearrange the node index and real node index
+    int count=0;
+    int nodeid,elmtid,nnodes;
+    for(int i=0;i<static_cast<int>(_NodeRealIndex.size());i++){
+        if(_NodeRealIndex[i]!=0){
+            nodeid=_NodeRealIndex[i];
+            _NodeCoords[(nodeid-1)*3+0]=NodeCoords[i*3+0];
+            _NodeCoords[(nodeid-1)*3+1]=NodeCoords[i*3+1];
+            _NodeCoords[(nodeid-1)*3+2]=NodeCoords[i*3+2];
+            count+=1;
+        }
+    }
+    if(count!=_nNodes){
+        cout<<"***********************************************************"<<endl;
+        cout<<"*** Error: real nodes num is less than msh's value  !!! ***"<<endl;
+        cout<<"***********************************************************"<<endl;
+        abort();
+    }
+
+    count=0;
+    int j;
+    int maxid=-1;
+    for(int e=0;e<static_cast<int>(_ElmtRealIndex.size());e++){
+        elmtid=_ElmtRealIndex[e];
+        // if(e==0){
+        //     cout<<"elmtit="<<elmtid<<",nodes="<<ElmtConn[e][0]<<", size="<<ElmtConn[e].size()<<endl;
+        //     for(int i=0;i<ElmtConn[e][0];i++)cout<<ElmtConn[e][i+1]<<" ";
+        //     cout<<endl;
+        // }
+        if(elmtid>0){
+            count+=1;
+            nnodes=ElmtConn[e][0];
+            _ElmtConn[elmtid-1].resize(1+nnodes);
+            _ElmtConn[elmtid-1][0]=nnodes;
+            for(int i=0;i<nnodes;i++){
+                j=ElmtConn[e][i+1];
+                nodeid=_NodeRealIndex[j-1];
+                if(nodeid>maxid) maxid=nodeid;
+                _ElmtConn[elmtid-1][1+i]=nodeid;
+            }
+            _ElmtDimVec[elmtid-1]=ElmtDimVec[e];
+            _ElmtTypeVec[elmtid-1]=ElmtTypeVec[e];
+            _ElmtPhyIDVec[elmtid-1]=ElmtPhyIDVec[e];
+        }
+    }
+    // cout<<"maxid="<<maxid<<endl;
+    if(count!=_nElmts){
+        cout<<"***********************************************************"<<endl;
+        cout<<"*** Error: real elmts num is less than msh's value  !!! ***"<<endl;
+        cout<<"***********************************************************"<<endl;
+        abort();
+    }
+
+
+
     _nBulkElmt=0;
     for(int e=0;e<_nElmts;e++){
         if(_ElmtDimVec[e]==_nMaxDim){
             _nBulkElmt+=1;
         }
     }
+    // cout<<"nBulkElmts="<<_nBulkElmt<<", nElmts="<<_nElmts<<endl;
 
     if(MatrixMshPhyID==-1){
         cout<<"***********************************************************"<<endl;

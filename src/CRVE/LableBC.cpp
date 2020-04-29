@@ -39,7 +39,8 @@ void CRVE::LableBC(){
         elmttype=GetIthElmtType(e);
         subelmttpye=GetSubElmtTypeViaGmshElmtType(elmttype);
         phyid=GetIthElmtPhyID(e);
-        // cout<<"e="<<e<<", phyid="<<phyid<<endl;
+        // cout<<"e="<<e<<", phyid="<<phyid<<"elConn size="<<elConn.size()<<endl;
+        
         for(int isurface=1;isurface<=GetSurfaceNumsViaGmshElmtType(elmttype);isurface++){
             conn=GetIthElmtJthSurfaceNodeIndex(elmttype,e,isurface);
             //***********************************************
