@@ -144,8 +144,8 @@ void CRVE::CalcAreaAndVolume(){
         for(int gp=0;gp<l2;gp++){
             xi=gp3d[gp*4+1];eta=gp3d[gp*4+2];zeta=gp3d[gp*4+3];
             w=gp3d[gp*4+0];
-            // detjac=Shp3d(nNodes,elmttype,xi,eta,zeta,X,Y,Z);
-            detjac=0.0*zeta;
+            detjac=Shp3d(nNodes,elmttype,xi,eta,zeta,X,Y,Z);
+            // detjac=0.0*zeta;
             volume+=detjac*w;
         }
         if(GetIthElmtPhyID(e)==_MatrixID){

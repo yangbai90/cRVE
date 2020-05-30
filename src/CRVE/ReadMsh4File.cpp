@@ -121,6 +121,7 @@ void CRVE::ReadMsh4File(){
             int phyid;
             int nodes,dim;
             int elmtrealid;
+            string elmttypename;
 
 
 
@@ -147,6 +148,7 @@ void CRVE::ReadMsh4File(){
                 phyid=EntityTag;
                 nodes=GetElmtNodesNumViaGmshElmtType(elmttype);
                 dim=GetElmtDimViaGmshElmtType(elmttype);
+                elmttypename=GetElmtNameViaGmshElmtType(elmttype);
                 if(dim>_nMaxDim) _nMaxDim=dim;
                 if(dim<_nMinDim) _nMinDim=dim;
                 if(phyid==MatrixMshPhyID||phyid==ParticleMshPhyID){
@@ -154,6 +156,14 @@ void CRVE::ReadMsh4File(){
                         if(phyid<100) phyid+=100000;
                     }
                 }
+
+                if(dim==2){
+                    _SurfaceElmtTypeName=elmttypename;
+                }
+                if(dim==3){
+                    _BulkElmtTypeName=elmttypename;
+                }
+
                 for(e=0;e<numElmts;e++){
                     in>>elmtid;
                     if(_ElmtRealIndex[elmtid-1]==0){

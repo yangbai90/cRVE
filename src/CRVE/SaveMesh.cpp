@@ -2,7 +2,17 @@
 
 void CRVE::SaveMesh(){
     ofstream out;
-    string filename="new_"+_InputMeshFileName;
+    string filename;
+    if(_InputMeshFileName.find(".gmsh")!=string::npos&&
+       _InputMeshFileName.find(".gmsh2")==string::npos){
+        filename="new_"+_InputMeshFileName.substr(0,_InputMeshFileName.length()-5)+".msh";
+    }
+    else if(_InputMeshFileName.find(".gmsh2")!=string::npos){
+        filename="new_"+_InputMeshFileName.substr(0,_InputMeshFileName.length()-6)+".msh";
+    }
+    else{
+        filename="new_"+_InputMeshFileName;
+    }
     _OutputMeshFileName=filename;
     out.open(filename.c_str(),ios::out);
 

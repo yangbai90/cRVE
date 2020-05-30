@@ -250,6 +250,8 @@ double CRVE::Shp3d(const int &nNodes,const int &elmttype,const double &xi,const 
            -_Jac[2][0]*_Jac[1][1]*_Jac[0][2]
            -_Jac[2][1]*_Jac[1][2]*_Jac[0][0]
            -_Jac[2][2]*_Jac[1][0]*_Jac[0][1];
+
+    // cout<<_dxdxi<<","<<_dydxi<<","<<_dzdxi<<endl;
     
     if(abs(detjac)<1.0e-15){
         cout<<"*************************************************************************"<<endl;

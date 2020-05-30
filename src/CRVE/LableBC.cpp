@@ -123,6 +123,9 @@ void CRVE::LableBC(){
                     _HasPTop=true;
                 }
                 else{
+                    cout<<"Ymax"<<", phyid="<<phyid<<", matrix id="<<_MatrixID
+                        <<", particle id="<<_ParticleID
+                        <<", elmt id="<<e<<endl;
                     cout<<"*************************************************************************"<<endl;
                     cout<<"*** Error: some element dosnt belongs to either matrix or particle!!! ***"<<endl;
                     cout<<"*************************************************************************"<<endl;

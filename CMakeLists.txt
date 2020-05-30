@@ -31,17 +31,26 @@ set(src ${src} src/CRVE/Run.cpp)
 set(src ${src} src/CRVE/GetGmshFileInfo.cpp)
 set(src ${src} src/CRVE/ReadMsh2File.cpp)
 set(src ${src} src/CRVE/ReadMsh4File.cpp)
+set(src ${src} src/CRVE/ReadGmshFile.cpp)
 set(src ${src} src/CRVE/LableBC.cpp)
 set(src ${src} src/CRVE/JudgeFuns.cpp)
 set(src ${src} src/CRVE/SaveMesh.cpp)
 set(src ${src} src/CRVE/PrintInfo.cpp)
 set(src ${src} src/CRVE/ShapeFuns.cpp)
 set(src ${src} src/CRVE/CalcAreaAndVolume.cpp)
+
+
 ################################################
 ### For String Utils                         ###
 ################################################
 set(src ${src} include/StringUtils.h)
 set(src ${src} src/StringUtils.cpp)
+
+################################################
+### For Gauss integration                    ###
+################################################
+#set(src ${src} include/GPoint.h)
+#set(src ${src} src/GPoint/GPoint.cpp)
 
 
 
