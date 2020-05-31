@@ -2,7 +2,17 @@
 
 void CRVE::SaveMesh(){
     ofstream out;
-    string filename="new_"+_InputMeshFileName;
+    string filename;
+    if(_InputMeshFileName.find(".gmsh")!=string::npos&&
+       _InputMeshFileName.find(".gmsh2")==string::npos){
+        filename="new_"+_InputMeshFileName.substr(0,_InputMeshFileName.length()-5)+".msh";
+    }
+    else if(_InputMeshFileName.find(".gmsh2")!=string::npos){
+        filename="new_"+_InputMeshFileName.substr(0,_InputMeshFileName.length()-6)+".msh";
+    }
+    else{
+        filename="new_"+_InputMeshFileName;
+    }
     _OutputMeshFileName=filename;
     out.open(filename.c_str(),ios::out);
 
@@ -45,6 +55,7 @@ void CRVE::SaveMesh(){
         out<<_RVEElmtPhyID[i]<<" "<<_RVEElmtPhyID[i]<<" ";
         for(int j=0;j<static_cast<int>(_RVEElmtConn[i].size());j++){
             out<<_RVEElmtConn[i][j]<<" ";
+            // out<<_NodeRealIndex[_RVEElmtConn[i][j]-1]<<" ";
         }
         out<<"\n";
         
@@ -60,6 +71,7 @@ void CRVE::SaveMesh(){
         out<<GetIthElmtPhyID(e)<<" "<<GetIthElmtPhyID(e)<<" ";
         for(int j=0;j<_ElmtConn[e-1][0];j++){
             out<<_ElmtConn[e-1][j+1]<<" ";
+            // out<<_NodeRealIndex[_ElmtConn[e-1][j+1]-1]<<endl;
         }
         out<<"\n";
         if(GetIthElmtPhyID(e)==_MatrixID){

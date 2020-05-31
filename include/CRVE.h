@@ -121,6 +121,9 @@ private:
     int _ParticleID,_MatrixID;
     bool _HasParticleID,_HasMatrixID;
     double _MshFileVersion;
+    vector<int> _NodeRealIndex,_ElmtRealIndex;
+
+    string _BulkElmtTypeName,_SurfaceElmtTypeName;
 
     //*********************************************
     //*** for BC labeling

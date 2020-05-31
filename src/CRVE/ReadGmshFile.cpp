@@ -1,6 +1,6 @@
 #include "CRVE.h"
 
-void CRVE::ReadMsh2File(){
+void CRVE::ReadGmshFile(){
     ifstream in;
     in.open(_InputMeshFileName.c_str(),ios::in);
     while(!in.is_open()){
@@ -10,9 +10,11 @@ void CRVE::ReadMsh2File(){
         in.open(_InputMeshFileName.c_str(),ios::in);
     }
 
+
     int MatrixMshPhyID=-1,ParticleMshPhyID=-1;
     string str;
     int nPhysics=0;
+    int MaxPhyID=-1;
     vector<int> PhyDimVec;
     vector<pair<int,string>> PhyID2NameList;
     while(!in.eof()){
@@ -100,7 +102,7 @@ void CRVE::ReadMsh2File(){
 
             int elmtid;
             int phyid,geoid,ntags,elmttype;
-            int nodes,dim;
+            int nodes,dim,k;
             string elmttypename;
             _MeshUniDim2PhyID.clear();
             _MeshUniDim2GeoID.clear();
@@ -115,11 +117,15 @@ void CRVE::ReadMsh2File(){
                 if(dim>_nMaxDim) _nMaxDim=dim;
                 if(dim<_nMinDim) _nMinDim=dim;
 
-                if(phyid==MatrixMshPhyID||phyid==ParticleMshPhyID){
-                    if(dim==3){
-                        if(phyid<100) phyid+=100000;
-                    }
-                }
+                // if(phyid==MatrixMshPhyID||phyid==ParticleMshPhyID){
+                //     if(dim==3){
+                //         if(phyid<100) phyid+=100000;
+                //     }
+                // }
+
+                // if(elmtid==7785){
+                //     cout<<"phyid="<<phyid<<", geoid="<<geoid<<", dim="<<dim<<", nodes="<<nodes<<endl;
+                // }
 
                 if(dim==2){
                     _SurfaceElmtTypeName=elmttypename;
@@ -134,9 +140,18 @@ void CRVE::ReadMsh2File(){
                 for(int j=0;j<nodes;j++){
                     in>>_ElmtConn[elmtid-1][j+1];
                 }
+
+                if(dim==3){
+                    // rearrange the node index order
+                    k=_ElmtConn[elmtid-1][3];
+                    _ElmtConn[elmtid-1][3]=_ElmtConn[elmtid-1][4];
+                    _ElmtConn[elmtid-1][4]=k;
+                }
                 _ElmtDimVec[elmtid-1]=dim;
                 _ElmtTypeVec[elmtid-1]=elmttype;
                 _ElmtPhyIDVec[elmtid-1]=phyid;
+
+                if(phyid>MaxPhyID) MaxPhyID=phyid;
 
                 
                 if(_MeshUniDim2PhyID.size()==0){
@@ -168,6 +183,23 @@ void CRVE::ReadMsh2File(){
         }
     }
 
+    if(nPhysics==0){
+        // no any physical group information is given
+        for(auto it:_MeshUniDim2PhyID){
+            if(it.first==3){
+                // cout<<"id="<<it.second<<", max id="<<MaxPhyID<<endl;
+                if(it.second==MaxPhyID){
+                    ParticleMshPhyID=MaxPhyID;
+                    _HasParticleID=true;
+                }
+                else{
+                    MatrixMshPhyID=it.second;
+                    _HasMatrixID=true;
+                }
+            }
+        }
+    }
+
 
     if(MatrixMshPhyID==-1){
         cout<<"***********************************************************"<<endl;
@@ -182,15 +214,16 @@ void CRVE::ReadMsh2File(){
         cout<<"***********************************************************"<<endl;
         abort();
     }
-    if(!_HasMatrixID){
-        if(MatrixMshPhyID<100) MatrixMshPhyID+=100000;
-        _MatrixID=MatrixMshPhyID;
-    }
-    if(!_HasParticleID){
-        if(ParticleMshPhyID<100) ParticleMshPhyID+=100000;
-        _ParticleID=ParticleMshPhyID;
-    }
+    // if(!_HasMatrixID){
+    //     // cout<<"work in "<<endl;
+    //     if(MatrixMshPhyID<100) MatrixMshPhyID+=100000;
+    //     _MatrixID=MatrixMshPhyID;
+    // }
+    // if(!_HasParticleID){
+    //     if(ParticleMshPhyID<100) ParticleMshPhyID+=100000;
+    //     _ParticleID=ParticleMshPhyID;
+    // }
 
-    // cout<<"MatrixID="<<_MatrixID<<", ParticleID="<<_ParticleID<<endl;
-
+    _MatrixID=MatrixMshPhyID;
+    _ParticleID=ParticleMshPhyID;
 }

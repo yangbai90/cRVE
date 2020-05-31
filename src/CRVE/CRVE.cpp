@@ -17,6 +17,10 @@ CRVE::CRVE(int args,char *argv[]){
     _PhyName2IDList.clear();
     _PhyDimVec.clear();
 
+
+    _BulkElmtTypeName.clear();
+    _SurfaceElmtTypeName.clear();
+
     _ParticleID=-1;_MatrixID=-1;;
     _HasParticleID=false;_HasMatrixID=false;
 

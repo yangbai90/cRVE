@@ -15,11 +15,11 @@ void CRVE::PrintInfo()const{
         phyname=_RVEPhyID2NameList[i].second;
         if(phyid==_MatrixID){
             nelmts=_RVEPhyElmtsNumList[_RVEPhyElmtsNumList.size()-1];
-            volume=0.0;
+            volume=_RVEVolumeList[_RVEPhyElmtsNumList.size()-1];
         }
         else if(phyid==_ParticleID){
             nelmts=_RVEPhyElmtsNumList[_RVEPhyElmtsNumList.size()];
-            volume=0.0;
+            volume=_RVEVolumeList[_RVEPhyElmtsNumList.size()];
         }
         else{
             nelmts=_RVEPhyElmtsNumList[phyid];

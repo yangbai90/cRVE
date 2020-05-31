@@ -63,7 +63,52 @@ int CRVE::GetElmtDimViaGmshElmtType(const int &elmttype)const{
         return -1;
     }
 }
-
+//*************************************************************************
+string CRVE::GetElmtNameViaGmshElmtType(const int &elmttype)const{
+    switch (elmttype){
+    case 1:
+        // 2-node line
+        return "edge2";
+    case 2:
+        //3-node triangle.
+        return "tri3";
+    case 3:
+        //4-node quadrangle.
+        return "quad4";
+    case 4:
+        // 4-node tetrahedron.
+        return "tet4";
+    case 5:
+        // 8-node hexahedron.
+        return "hex8";
+    case 8:
+        // 3-node second order line (2 nodes associated with the vertices and 1 with the edge).
+        return "edge3";
+    case 9:
+        // 6-node second order triangle (3 nodes associated with the vertices and 3 with the edges).
+        return "tri6";
+    case 10:
+        // 9-node second order quadrangle 
+        return "quad9";
+    case 11:
+        // 10-node second order tetrahedron
+        return "tet10";
+    case 12:
+        // 27-node second order hexahedron
+        return "hex27";
+    case 15:
+        // 1-node point
+        return "point";
+    case 16:
+        // 8-node second order quadrangle 
+        return "quad8";
+    case 17:
+        // 20-node second order hexahedron
+        return "hex20";
+    default:
+        return "null";
+    }
+}
 //*************************************************************************
 int CRVE::GetElmtSubDimViaGmshElmtType(const int &elmttype)const{
     switch (elmttype){

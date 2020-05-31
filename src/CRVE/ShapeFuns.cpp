@@ -120,7 +120,8 @@ double CRVE::Shp2d(const int &nNodes,const int &elmttype,const double &xi,const 
         abort();
     }
 
-    
+    _dxdxi=0.0;_dydxi=0.0;_dzdxi=0.0;
+    _dxdeta=0.0;_dydeta=0.0;_dzdeta=0.0;
     for(int i=1;i<=nNodes;i++){
         _dxdxi+=_Shp[i][1]*X[i];
         _dydxi+=_Shp[i][1]*Y[i];
@@ -140,7 +141,7 @@ double CRVE::Shp2d(const int &nNodes,const int &elmttype,const double &xi,const 
         cout<<"*************************************************************************"<<endl;
         cout<<"*** Error: singular element in 2D case                            !!! ***"<<endl;
         cout<<"*************************************************************************"<<endl;
-        abort();
+        // abort();
     }
 
     return detjac;
@@ -151,8 +152,7 @@ double CRVE::Shp3d(const int &nNodes,const int &elmttype,const double &xi,const 
     double detjac=0.0;
     double sqrt2=sqrt(2.0);
     double sqrt3=sqrt(3.0);
-    switch (elmttype)
-    {
+    switch (elmttype){
     case 4:
         //4-node tetrahedron.
         _Shp[1][0]= (3.0+8.0*xi-2.0*sqrt2*zeta)/12.0;
@@ -165,15 +165,27 @@ double CRVE::Shp3d(const int &nNodes,const int &elmttype,const double &xi,const 
         _Shp[2][2]=-4.0*sqrt3/12.0;
         _Shp[2][3]=-2.0*sqrt2/12.0;
 
-        _Shp[3][0]= (3.0-4.0*xi+4.0*sqrt3*eta-2.0*sqrt2*zeta)/12.0;
-        _Shp[3][1]=-4.0/12.0;
-        _Shp[3][2]= 4.0*sqrt3/12.0;
-        _Shp[3][3]=-2.0*sqrt2/12.0;
+        // _Shp[3][0]= (3.0-4.0*xi+4.0*sqrt3*eta-2.0*sqrt2*zeta)/12.0;
+        // _Shp[3][1]=-4.0/12.0;
+        // _Shp[3][2]= 4.0*sqrt3/12.0;
+        // _Shp[3][3]=-2.0*sqrt2/12.0;
 
-        _Shp[4][0]= (1.0+2.0*sqrt2*zeta)/4.0;
-        _Shp[4][1]= 0.0;
-        _Shp[4][2]= 0.0;
-        _Shp[4][3]= 2.0*sqrt2/4.0;
+        // _Shp[4][0]= (1.0+2.0*sqrt2*zeta)/4.0;
+        // _Shp[4][1]= 0.0;
+        // _Shp[4][2]= 0.0;
+        // _Shp[4][3]= 2.0*sqrt2/4.0;
+
+        // in order to fit the gmsh order
+        _Shp[4][0]= (3.0-4.0*xi+4.0*sqrt3*eta-2.0*sqrt2*zeta)/12.0;
+        _Shp[4][1]=-4.0/12.0;
+        _Shp[4][2]= 4.0*sqrt3/12.0;
+        _Shp[4][3]=-2.0*sqrt2/12.0;
+
+        _Shp[3][0]= (1.0+2.0*sqrt2*zeta)/4.0;
+        _Shp[3][1]= 0.0;
+        _Shp[3][2]= 0.0;
+        _Shp[3][3]= 2.0*sqrt2/4.0;
+
         break;
     case 5:
         //8-node hexahedron.
@@ -245,17 +257,19 @@ double CRVE::Shp3d(const int &nNodes,const int &elmttype,const double &xi,const 
 
     // taken from https://en.wikipedia.org/wiki/Rule_of_Sarrus
     detjac=_Jac[0][0]*_Jac[1][1]*_Jac[2][2]
-           +_Jac[0][1]*_Jac[1][2]*_Jac[2][0]
-           +_Jac[0][2]*_Jac[1][0]*_Jac[2][1]
-           -_Jac[2][0]*_Jac[1][1]*_Jac[0][2]
-           -_Jac[2][1]*_Jac[1][2]*_Jac[0][0]
-           -_Jac[2][2]*_Jac[1][0]*_Jac[0][1];
+          +_Jac[0][1]*_Jac[1][2]*_Jac[2][0]
+          +_Jac[0][2]*_Jac[1][0]*_Jac[2][1]
+          -_Jac[2][0]*_Jac[1][1]*_Jac[0][2]
+          -_Jac[2][1]*_Jac[1][2]*_Jac[0][0]
+          -_Jac[2][2]*_Jac[1][0]*_Jac[0][1];
+
+    // cout<<_dxdxi<<","<<_dydxi<<","<<_dzdxi<<endl;
     
     if(abs(detjac)<1.0e-15){
         cout<<"*************************************************************************"<<endl;
         cout<<"*** Error: singular element in 3D case                            !!! ***"<<endl;
         cout<<"*************************************************************************"<<endl;
-        abort();
+        // abort();
     }
 
     return detjac;
