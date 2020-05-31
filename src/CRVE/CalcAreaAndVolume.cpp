@@ -4,12 +4,14 @@ void CRVE::CalcAreaAndVolume(){
     _RVEVolumeList.resize(_RVEPhyGroupNameList.size()+1,0.0);
     vector<double> gp2d,gp3d;
     int l1=0,l2=0;
+
+    _nGP=2;
     if(_nGP==2){
         l1=3;
         gp2d.resize(l1*3,0.0);
         gp2d[0*3+1]=2.0/3.0;
         gp2d[0*3+2]=1.0/6.0;
-        gp2d[0*3+0]=1.0/3.;
+        gp2d[0*3+0]=1.0/3.0;
 
         gp2d[1*3+1]=1.0/6.0;
         gp2d[1*3+2]=2.0/3.0;
@@ -109,9 +111,9 @@ void CRVE::CalcAreaAndVolume(){
         nNodes=static_cast<int>(_RVEElmtConn[e].size());
         for(int i=0;i<nNodes;i++){
             iInd=_RVEElmtConn[e][i];
-            X[i]=GetIthNodeJthCoord(iInd,1);
-            Y[i]=GetIthNodeJthCoord(iInd,2);
-            Z[i]=GetIthNodeJthCoord(iInd,3);
+            X[i+1]=GetIthNodeJthCoord(iInd,1);
+            Y[i+1]=GetIthNodeJthCoord(iInd,2);
+            Z[i+1]=GetIthNodeJthCoord(iInd,3);
         }
         volume=0.0;
         for(int gp=0;gp<l1;gp++){
@@ -122,6 +124,7 @@ void CRVE::CalcAreaAndVolume(){
             volume+=detjac*w;
         }
         _RVEVolumeList[phyid]+=volume;
+        // cout<<"elmt id="<<e<<", phy id="<<phyid<<", volume="<<volume<<endl;
     }
 
     // Now we do the volume interation for the bulk
@@ -131,12 +134,13 @@ void CRVE::CalcAreaAndVolume(){
         elmttype=GetIthElmtType(e);
         phyid=GetIthElmtPhyID(e);
         nNodes=_ElmtConn[e-1][0];
-        // cout<<"elmttype="<<elmttype<<", phyid="<<phyid<<", e="<<e<<endl;
+        // cout<<"elmttype="<<elmttype<<", phyid="<<phyid
+        //     <<", e="<<e<<", matrix id="<<_MatrixID<<", particle id="<<_ParticleID<<endl;
         for(int j=0;j<nNodes;j++){
             iInd=_ElmtConn[e-1][j+1];
-            X[j]=GetIthNodeJthCoord(iInd,1);
-            Y[j]=GetIthNodeJthCoord(iInd,2);
-            Z[j]=GetIthNodeJthCoord(iInd,3);
+            X[j+1]=GetIthNodeJthCoord(iInd,1);
+            Y[j+1]=GetIthNodeJthCoord(iInd,2);
+            Z[j+1]=GetIthNodeJthCoord(iInd,3);
             // cout<<"\n"<<X[j]<<" "<<Y[j]<<" "<<Z[j]<<endl;
         }
 
@@ -145,13 +149,17 @@ void CRVE::CalcAreaAndVolume(){
             xi=gp3d[gp*4+1];eta=gp3d[gp*4+2];zeta=gp3d[gp*4+3];
             w=gp3d[gp*4+0];
             detjac=Shp3d(nNodes,elmttype,xi,eta,zeta,X,Y,Z);
+            // if(e==10000){
+            //     cout<<"detjac="<<detjac<<", w="<<w<<endl;
+            // }
             // detjac=0.0*zeta;
             volume+=detjac*w;
         }
-        if(GetIthElmtPhyID(e)==_MatrixID){
+
+        if(phyid==_MatrixID){
             _RVEVolumeList[_RVEPhyElmtsNumList.size()-1]+=volume;
         }
-        else if(GetIthElmtPhyID(e)==_ParticleID){
+        else if(phyid==_ParticleID){
             _RVEVolumeList[_RVEPhyElmtsNumList.size()]+=volume;
         }
     }
