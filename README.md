@@ -7,6 +7,17 @@ Step-2. generate the msh file use Gmsh, which should give you the volume mesh bu
 
 Step-3. label out all the boundaries use cRVE, especially the common surface where the particles are contacted with the cubic's edge surfaces.
 
+# Citing
+
+<pre>
+@MISC{Bai2020cRVE,
+      author = "Bai, Y.",
+      title = "cRVE: a c++ based implementation for splitting the boundaries of two-phases composite materials",
+      year = "2020",
+      journal={URL https://github.com/yangbai90/cRVE Release}
+      }
+</pre>
+
 # Install
 ```shell
 git clone https://github.com/yangbai90/cRVE.git
