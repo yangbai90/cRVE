@@ -12,10 +12,9 @@ Step-3. label out all the boundaries use cRVE, especially the common surface whe
 <pre>
 @MISC{Bai2020cRVE,
       author = "Bai, Y.",
-      title = "{cRVE}: a cpp based implementation to split the boundaries of two-phases composite materials",
+      title = "cRVE: a c++ based implementation for splitting the boundaries of two-phases composite materials",
       year = "2020",
-      url = "https://github.com/yangbai90/cRVE",
-      note = "Release 1.0"
+      journal={URL https://github.com/yangbai90/cRVE Release}
       }
 </pre>
 
